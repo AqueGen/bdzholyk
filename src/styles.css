@@ -208,11 +208,10 @@ details[open] .faq-icon { transform: rotate(45deg); }
 .dark details.bg-white { background-color: #1A2840 !important; }
 
 /* Direction icon background tint */
+.dir-icon { color: #0E3B6B; }
+.dark .dir-icon { color: #FFE066; }
 .dark .dir-icon.bg-honey\/20 { background-color: rgba(245,184,0,0.20) !important; }
 .dark .dir-icon.bg-green\/15 { background-color: rgba(46,139,87,0.25) !important; }
-.dark .dir-icon svg          { stroke: #FFE066; }
-.dark .dir-icon svg circle[fill="#FFFFFF"],
-.dark .dir-icon svg [fill="#FFFFFF"] { fill: #18223C; }
 
 /* Stat tiles */
 .dark .bg-white.border.border-honey\/30 { background-color: #1A2840 !important; }
