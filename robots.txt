@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://aquegen.github.io/bdzholyk/sitemap.xml

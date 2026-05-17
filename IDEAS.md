@@ -3,11 +3,11 @@
 Future improvements for the Bdzholyk site. Prioritized loosely by impact/effort.
 
 ## Quick wins (low effort, high impact)
-- [ ] Open Graph + Twitter Card meta (share preview in Telegram/FB/Twitter)
-- [ ] Schema.org JSON-LD (Organization / NGO) for Google
-- [ ] sitemap.xml + robots.txt
+- [x] Open Graph + Twitter Card meta (share preview in Telegram/FB/Twitter)
+- [x] Schema.org JSON-LD (Organization / NGO) for Google
+- [x] sitemap.xml + robots.txt
+- [x] `hreflang` tags for UK/EN (signal translations to Google)
 - [ ] Sticky donate CTA on mobile (always visible donate button)
-- [ ] `hreflang` tags for UK/EN (signal translations to Google)
 
 ## Content / UX
 - [ ] Real foundation photos (replace gradient placeholders)
