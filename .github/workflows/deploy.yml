@@ -1,5 +1,12 @@
 name: Deploy to GitHub Pages
 
+# Auto-runs on push to main. To pause auto-runs without disabling the workflow:
+#   gh variable set AUTO_DEPLOY -b false  # pause
+#   gh variable set AUTO_DEPLOY -b true   # resume
+# A manual run via "Run workflow" always deploys, regardless of the variable.
+#
+# Add `[skip ci]` to the commit message to skip a single push (GitHub built-in).
+
 on:
   push:
     branches: [main]
@@ -15,7 +22,30 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  gate:
+    runs-on: ubuntu-latest
+    outputs:
+      should_deploy: ${{ steps.decide.outputs.should_deploy }}
+    steps:
+      - id: decide
+        env:
+          AUTO_DEPLOY: ${{ vars.AUTO_DEPLOY }}
+          EVENT_NAME: ${{ github.event_name }}
+        run: |
+          if [ "$EVENT_NAME" = "workflow_dispatch" ]; then
+            echo "Manual trigger -> deploy."
+            echo "should_deploy=true" >> "$GITHUB_OUTPUT"
+          elif [ "${AUTO_DEPLOY,,}" = "false" ]; then
+            echo "AUTO_DEPLOY=$AUTO_DEPLOY -> skip auto-deploy."
+            echo "should_deploy=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "AUTO_DEPLOY=${AUTO_DEPLOY:-<unset, defaults to true>} -> deploy."
+            echo "should_deploy=true" >> "$GITHUB_OUTPUT"
+          fi
+
   build-and-deploy:
+    needs: gate
+    if: needs.gate.outputs.should_deploy == 'true'
     runs-on: ubuntu-latest
     environment:
       name: github-pages
