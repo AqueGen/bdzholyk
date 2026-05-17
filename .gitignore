@@ -5,3 +5,9 @@ nul
 .vscode/
 .idea/
 node_modules/
+
+# Build artifacts (produced by `npm run build`; committed for direct GH Pages serving as fallback,
+# but ignored during pure-Actions workflow)
+# Note: assets/styles.css IS committed so the site works without a build step locally.
+# Leave the next line commented unless switching to Actions-only deploy.
+# assets/styles.css

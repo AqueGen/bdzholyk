@@ -1,0 +1,138 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============ Base ============ */
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: #FAFAF7;
+  color: #1F2937;
+}
+h1, h2, h3, h4, .font-display { font-family: 'Comfortaa', system-ui, sans-serif; }
+
+.h1 { font-size: clamp(2.25rem, 5.5vw, 4rem); line-height: 1.1; letter-spacing: -0.01em; }
+.h2 { font-size: clamp(1.75rem, 3.5vw, 2.75rem); line-height: 1.15; letter-spacing: -0.01em; }
+.lead { font-size: clamp(1.05rem, 1.6vw, 1.25rem); line-height: 1.6; }
+
+/* ============ Reveal on scroll ============ */
+.js .reveal { opacity: 0.001; transform: translateY(16px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.js .reveal.visible,
+.js.no-anim .reveal { opacity: 1; transform: translateY(0); }
+
+/* ============ Generic motion ============ */
+@keyframes float { 0%,100%{transform: translateY(0) rotate(-2deg);} 50%{transform: translateY(-14px) rotate(2deg);} }
+.float { animation: float 4.5s ease-in-out infinite; transform-origin: center; }
+
+@keyframes bzz { 0%,100%{transform:translateX(0);} 25%{transform:translateX(-2px);} 75%{transform:translateX(2px);} }
+.bzz:hover { animation: bzz 0.4s linear infinite; }
+
+/* ============ Interactive mascot ============ */
+#mascot-svg { outline: none; -webkit-tap-highlight-color: transparent; }
+#mascot-svg:focus { outline: none; }
+#mascot-svg:focus-visible {
+  filter:
+    drop-shadow(0 0 0.5rem rgba(245,184,0,0.7))
+    drop-shadow(0 0 1.25rem rgba(245,184,0,0.45));
+}
+#mascot-svg #pupil-left,
+#mascot-svg #pupil-right { transition: transform 50ms linear; transform-box: fill-box; }
+
+@keyframes wing-flap-l { 0%,100% { transform: rotate(0deg); } 50% { transform: rotate(-18deg); } }
+@keyframes wing-flap-r { 0%,100% { transform: rotate(0deg); } 50% { transform: rotate(18deg); } }
+#mascot-svg #wing-left  { animation: wing-flap-l 1.4s ease-in-out infinite; transform-origin: 100% 50%; transform-box: fill-box; }
+#mascot-svg #wing-right { animation: wing-flap-r 1.4s ease-in-out infinite; transform-origin: 0% 50%;   transform-box: fill-box; }
+#mascot-stage.boost #wing-left,
+#mascot-stage.boost #wing-right { animation-duration: 0.35s; }
+
+@keyframes happy-hop {
+  0%   { transform: translateY(0) rotate(0deg) scale(1); }
+  25%  { transform: translateY(-18px) rotate(-6deg) scale(1.04); }
+  50%  { transform: translateY(0) rotate(6deg) scale(1); }
+  75%  { transform: translateY(-10px) rotate(-3deg) scale(1.02); }
+  100% { transform: translateY(0) rotate(0deg) scale(1); }
+}
+#mascot-stage.happy #bee-body { animation: happy-hop 0.7s ease-out; transform-origin: center; transform-box: fill-box; }
+#mascot-stage.happy #mouth    { d: path("M170 248 Q200 280 230 248"); }
+
+/* Hearts particles */
+.heart {
+  position: absolute; left: 50%; top: 55%; font-size: 1.8rem;
+  transform: translate(-50%, -50%); pointer-events: none;
+  animation: heart-rise 1.4s ease-out forwards;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));
+}
+@keyframes heart-rise {
+  0%   { opacity: 0; transform: translate(calc(-50% + var(--dx, 0px)), -50%) scale(0.5) rotate(var(--rot, 0deg)); }
+  20%  { opacity: 1; }
+  100% { opacity: 0; transform: translate(calc(-50% + var(--dx2, 0px)), calc(-50% - 180px)) scale(1.1) rotate(var(--rot, 0deg)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #mascot-svg #wing-left, #mascot-svg #wing-right { animation: none; }
+  #mascot-svg #pupil-left, #mascot-svg #pupil-right { transition: none; }
+  #mascot-stage.happy #bee-body { animation: none; }
+  .heart { animation: none; opacity: 0; }
+}
+
+/* ============ Misc UI ============ */
+.nav-link { position: relative; }
+.nav-link::after {
+  content: ''; position: absolute; left: 0; bottom: -4px; width: 0; height: 2px;
+  background: #F5B800; transition: width 0.25s ease;
+}
+.nav-link:hover::after, .nav-link:focus-visible::after { width: 100%; }
+
+.card-img { aspect-ratio: 4/3; object-fit: cover; }
+
+details > summary { list-style: none; cursor: pointer; }
+details > summary::-webkit-details-marker { display: none; }
+details[open] .faq-icon { transform: rotate(45deg); }
+
+.gradient-hero {
+  background:
+    radial-gradient(1200px 600px at 90% -10%, rgba(245,184,0,0.20), transparent 60%),
+    radial-gradient(900px 500px at -10% 110%, rgba(46,139,87,0.12), transparent 60%),
+    linear-gradient(180deg, #FFF8E7 0%, #FAFAF7 100%);
+}
+
+.focus-ring:focus-visible { outline: none; box-shadow: 0 0 0 4px rgba(245,184,0,0.45); border-radius: 12px; }
+
+/* ============ Lang switcher ============ */
+.lang-switch {
+  display: inline-flex; align-items: center; gap: 0;
+  background: rgba(255,255,255,0.6); backdrop-filter: blur(8px);
+  border: 1px solid rgba(14,59,107,0.15); border-radius: 9999px; padding: 3px;
+}
+.lang-switch button {
+  font-family: 'Inter', system-ui, sans-serif; font-weight: 600; font-size: 0.8rem;
+  padding: 0.35rem 0.85rem; border-radius: 9999px; color: #0E3B6B;
+  transition: background 0.2s, color 0.2s; min-width: 38px;
+}
+.lang-switch button[aria-pressed="true"] { background: #F5B800; color: #0E3B6B; }
+.lang-switch button:hover:not([aria-pressed="true"]) { background: rgba(245,184,0,0.2); }
+
+/* ============ Gallery (masonry-ish) ============ */
+.gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
+@media (min-width: 768px) { .gallery { grid-template-columns: repeat(3, 1fr); gap: 1rem; } }
+@media (min-width: 1024px) { .gallery { grid-template-columns: repeat(4, 1fr); } }
+.gallery .tile { position: relative; overflow: hidden; border-radius: 1rem; background: #eee; transition: transform 0.4s ease; aspect-ratio: 1/1; }
+.gallery .tile:hover { transform: scale(1.03); box-shadow: 0 12px 30px -10px rgba(14,59,107,0.3); }
+.gallery .tile img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+.gallery .tile:hover img { transform: scale(1.06); }
+.gallery .tile.tall { grid-row: span 2; aspect-ratio: 1/2; }
+@media (max-width: 767px) { .gallery .tile.tall { aspect-ratio: 1/1; grid-row: auto; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+  .float, .bzz { animation: none; }
+  html { scroll-behavior: auto; }
+}
+
+/* ============ Skip link ============ */
+.skip-link {
+  position: absolute; left: -9999px; top: 0;
+  background: #0E3B6B; color: #FFF8E7; padding: 0.75rem 1rem; border-radius: 0 0 12px 0;
+  z-index: 100;
+}
+.skip-link:focus { left: 0; }
