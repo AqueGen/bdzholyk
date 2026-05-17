@@ -58,6 +58,48 @@
     @keyframes bzz { 0%,100%{transform:translateX(0);} 25%{transform:translateX(-2px);} 75%{transform:translateX(2px);} }
     .bzz:hover { animation: bzz 0.4s linear infinite; }
 
+    /* ====== INTERACTIVE MASCOT ====== */
+    #mascot-svg #pupil-left,
+    #mascot-svg #pupil-right { transition: transform 80ms ease-out; transform-box: fill-box; }
+
+    @keyframes wing-flap-l { 0%,100% { transform: rotate(0deg); } 50% { transform: rotate(-18deg); } }
+    @keyframes wing-flap-r { 0%,100% { transform: rotate(0deg); } 50% { transform: rotate(18deg); } }
+    #mascot-svg #wing-left  { animation: wing-flap-l 1.4s ease-in-out infinite; transform-origin: 100% 50%; transform-box: fill-box; }
+    #mascot-svg #wing-right { animation: wing-flap-r 1.4s ease-in-out infinite; transform-origin: 0% 50%;   transform-box: fill-box; }
+    #mascot-stage.boost #wing-left,
+    #mascot-stage.boost #wing-right { animation-duration: 0.35s; }
+
+    /* Click-happy: little hop + wiggle */
+    @keyframes happy-hop {
+      0%   { transform: translateY(0) rotate(0deg) scale(1); }
+      25%  { transform: translateY(-18px) rotate(-6deg) scale(1.04); }
+      50%  { transform: translateY(0) rotate(6deg) scale(1); }
+      75%  { transform: translateY(-10px) rotate(-3deg) scale(1.02); }
+      100% { transform: translateY(0) rotate(0deg) scale(1); }
+    }
+    #mascot-stage.happy #bee-body { animation: happy-hop 0.7s ease-out; transform-origin: center; transform-box: fill-box; }
+    #mascot-stage.happy #mouth    { d: path("M170 248 Q200 280 230 248"); }
+
+    /* Hearts particles */
+    .heart {
+      position: absolute; left: 50%; top: 55%; font-size: 1.8rem;
+      transform: translate(-50%, -50%); pointer-events: none;
+      animation: heart-rise 1.4s ease-out forwards;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));
+    }
+    @keyframes heart-rise {
+      0%   { opacity: 0; transform: translate(calc(-50% + var(--dx, 0px)), -50%) scale(0.5) rotate(var(--rot, 0deg)); }
+      20%  { opacity: 1; }
+      100% { opacity: 0; transform: translate(calc(-50% + var(--dx2, 0px)), calc(-50% - 180px)) scale(1.1) rotate(var(--rot, 0deg)); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      #mascot-svg #wing-left, #mascot-svg #wing-right { animation: none; }
+      #mascot-svg #pupil-left, #mascot-svg #pupil-right { transition: none; }
+      #mascot-stage.happy #bee-body { animation: none; }
+      .heart { animation: none; opacity: 0; }
+    }
+
     .nav-link { position: relative; }
     .nav-link::after {
       content: ''; position: absolute; left: 0; bottom: -4px; width: 0; height: 2px;
@@ -217,9 +259,75 @@
         </div>
 
         <div class="flex items-center justify-center order-first md:order-last">
-          <div class="relative w-full max-w-md aspect-square">
-            <div class="absolute inset-0 bg-honey/20 rounded-full blur-3xl"></div>
-            <img src="assets/mascot.svg" alt="Bee mascot" class="relative w-full h-full float drop-shadow-xl" data-i18n-attr="alt:hero.mascotAlt" />
+          <div id="mascot-stage" class="relative w-full max-w-md aspect-square select-none">
+            <div class="absolute inset-0 bg-honey/20 rounded-full blur-3xl pointer-events-none"></div>
+            <svg id="mascot-svg" class="relative w-full h-full float drop-shadow-xl cursor-pointer"
+                 viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg"
+                 role="img" aria-label="Bee mascot" data-i18n-attr="aria-label:hero.mascotAlt">
+              <defs>
+                <radialGradient id="bodyGrad" cx="0.4" cy="0.4">
+                  <stop offset="0%"   stop-color="#FFD84A"/>
+                  <stop offset="100%" stop-color="#F5B800"/>
+                </radialGradient>
+                <linearGradient id="wingGrad" x1="0" x2="0" y1="0" y2="1">
+                  <stop offset="0%"   stop-color="#FFFFFF" stop-opacity="0.95"/>
+                  <stop offset="100%" stop-color="#DCEEFF" stop-opacity="0.7"/>
+                </linearGradient>
+              </defs>
+
+              <ellipse cx="200" cy="370" rx="90" ry="10" fill="#0E3B6B" fill-opacity="0.12"/>
+
+              <g id="wing-left"  style="transform-box: fill-box; transform-origin: 100% 50%;">
+                <ellipse cx="140" cy="140" rx="80" ry="50" fill="url(#wingGrad)" stroke="#0E3B6B" stroke-width="2" transform="rotate(-20 140 140)"/>
+              </g>
+              <g id="wing-right" style="transform-box: fill-box; transform-origin: 0% 50%;">
+                <ellipse cx="260" cy="140" rx="80" ry="50" fill="url(#wingGrad)" stroke="#0E3B6B" stroke-width="2" transform="rotate(20 260 140)"/>
+              </g>
+
+              <g id="bee-body">
+                <ellipse cx="200" cy="230" rx="110" ry="95" fill="url(#bodyGrad)" stroke="#0E3B6B" stroke-width="4"/>
+
+                <path d="M120 200 Q200 215 280 200" stroke="#0E3B6B" stroke-width="14" fill="none" stroke-linecap="round"/>
+                <path d="M105 240 Q200 260 295 240" stroke="#0E3B6B" stroke-width="14" fill="none" stroke-linecap="round"/>
+                <path d="M120 280 Q200 295 280 280" stroke="#0E3B6B" stroke-width="14" fill="none" stroke-linecap="round"/>
+
+                <!-- Eye whites -->
+                <circle cx="170" cy="200" r="14" fill="#FFFFFF"/>
+                <circle cx="230" cy="200" r="14" fill="#FFFFFF"/>
+
+                <!-- Pupils (translatable groups for eye-tracking) -->
+                <g id="pupil-left">
+                  <circle cx="173" cy="203" r="7" fill="#0E3B6B"/>
+                  <circle cx="175" cy="201" r="2" fill="#FFFFFF"/>
+                </g>
+                <g id="pupil-right">
+                  <circle cx="233" cy="203" r="7" fill="#0E3B6B"/>
+                  <circle cx="235" cy="201" r="2" fill="#FFFFFF"/>
+                </g>
+
+                <!-- Mouth (path swapped on click for grin) -->
+                <path id="mouth" d="M175 250 Q200 270 225 250" stroke="#0E3B6B" stroke-width="4" fill="none" stroke-linecap="round"/>
+
+                <ellipse cx="155" cy="245" rx="10" ry="6" fill="#FF8FA3" fill-opacity="0.6"/>
+                <ellipse cx="245" cy="245" rx="10" ry="6" fill="#FF8FA3" fill-opacity="0.6"/>
+
+                <g stroke="#0E3B6B" stroke-width="3" stroke-linecap="round" fill="none">
+                  <path d="M160 130 Q150 110 145 90"/>
+                  <path d="M240 130 Q250 110 255 90"/>
+                  <circle cx="145" cy="88" r="6" fill="#0E3B6B"/>
+                  <circle cx="255" cy="88" r="6" fill="#0E3B6B"/>
+                </g>
+              </g>
+
+              <g id="pollen">
+                <circle cx="80"  cy="80"  r="8"  fill="#F5B800" opacity="0.6"/>
+                <circle cx="340" cy="100" r="6"  fill="#F5B800" opacity="0.5"/>
+                <circle cx="350" cy="280" r="10" fill="#F5B800" opacity="0.5"/>
+                <circle cx="60"  cy="300" r="7"  fill="#F5B800" opacity="0.6"/>
+              </g>
+            </svg>
+            <!-- Hearts spawn container -->
+            <div id="hearts-layer" class="pointer-events-none absolute inset-0 overflow-visible"></div>
           </div>
         </div>
       </div>
@@ -831,6 +939,79 @@
         burger.setAttribute('aria-expanded', 'false');
       });
     });
+
+    // ====== INTERACTIVE MASCOT ======
+    (function initMascot() {
+      const stage = document.getElementById('mascot-stage');
+      const svg   = document.getElementById('mascot-svg');
+      const pupilL = document.getElementById('pupil-left');
+      const pupilR = document.getElementById('pupil-right');
+      const hearts = document.getElementById('hearts-layer');
+      if (!stage || !svg || !pupilL || !pupilR || !hearts) return;
+
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      // Eye tracking: pupils follow pointer within a small radius
+      const MAX_OFFSET = 5; // SVG units
+      function trackEyes(clientX, clientY) {
+        const r = svg.getBoundingClientRect();
+        const cx = r.left + r.width / 2;
+        const cy = r.top + r.height * 0.5;
+        const dx = clientX - cx;
+        const dy = clientY - cy;
+        const len = Math.hypot(dx, dy) || 1;
+        const ox = (dx / len) * MAX_OFFSET;
+        const oy = (dy / len) * MAX_OFFSET;
+        pupilL.setAttribute('transform', `translate(${ox} ${oy})`);
+        pupilR.setAttribute('transform', `translate(${ox} ${oy})`);
+      }
+      if (!reduced) {
+        window.addEventListener('mousemove', e => trackEyes(e.clientX, e.clientY), { passive: true });
+        window.addEventListener('touchmove', e => {
+          if (e.touches && e.touches[0]) trackEyes(e.touches[0].clientX, e.touches[0].clientY);
+        }, { passive: true });
+      }
+
+      // Hover: wings flap faster
+      stage.addEventListener('mouseenter', () => stage.classList.add('boost'));
+      stage.addEventListener('mouseleave', () => stage.classList.remove('boost'));
+
+      // Click / tap: easter egg — happy hop + heart burst
+      const EMOJIS = ['💛', '✨', '🌟', '💛', '🐝', '💖'];
+      function spawnHearts() {
+        const count = 10;
+        for (let i = 0; i < count; i++) {
+          const h = document.createElement('span');
+          h.className = 'heart';
+          h.textContent = EMOJIS[Math.floor(Math.random() * EMOJIS.length)];
+          const dx  = (Math.random() - 0.5) * 40;
+          const dx2 = (Math.random() - 0.5) * 200;
+          const rot = (Math.random() - 0.5) * 60;
+          h.style.setProperty('--dx',  dx + 'px');
+          h.style.setProperty('--dx2', dx2 + 'px');
+          h.style.setProperty('--rot', rot + 'deg');
+          h.style.animationDelay = (i * 40) + 'ms';
+          h.style.fontSize = (1.4 + Math.random() * 1.0) + 'rem';
+          hearts.appendChild(h);
+          setTimeout(() => h.remove(), 2000);
+        }
+      }
+
+      let happyTimer;
+      svg.addEventListener('click', () => {
+        if (reduced) { spawnHearts(); return; }
+        stage.classList.add('happy');
+        spawnHearts();
+        clearTimeout(happyTimer);
+        happyTimer = setTimeout(() => stage.classList.remove('happy'), 750);
+      });
+
+      // Keyboard: focus + Enter/Space triggers easter egg
+      svg.setAttribute('tabindex', '0');
+      svg.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); svg.click(); }
+      });
+    })();
 
     // Reveal on scroll (with safety net)
     const reveals = document.querySelectorAll('.reveal');
