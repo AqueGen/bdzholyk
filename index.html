@@ -1003,11 +1003,18 @@
       stage.addEventListener('mouseenter', () => stage.classList.add('boost'));
       stage.addEventListener('mouseleave', () => stage.classList.remove('boost'));
 
-      // Click / tap: easter egg — happy hop + heart burst
+      // Click / tap: easter egg — happy hop + heart burst (rate-limited)
       const EMOJIS = ['💛', '✨', '🌟', '💛', '🐝', '💖'];
+      const HEARTS_PER_BURST   = 10;
+      const MAX_LIVE_HEARTS    = 30;   // cap concurrent particles to avoid mobile lag
+      const CLICK_COOLDOWN_MS  = 450;  // min interval between bursts
+
       function spawnHearts() {
-        const count = 10;
-        for (let i = 0; i < count; i++) {
+        // Cap: if this burst would exceed the limit, remove oldest first
+        while (hearts.children.length + HEARTS_PER_BURST > MAX_LIVE_HEARTS && hearts.firstChild) {
+          hearts.firstChild.remove();
+        }
+        for (let i = 0; i < HEARTS_PER_BURST; i++) {
           const h = document.createElement('span');
           h.className = 'heart';
           h.textContent = EMOJIS[Math.floor(Math.random() * EMOJIS.length)];
@@ -1025,7 +1032,11 @@
       }
 
       let happyTimer;
+      let lastClickAt = 0;
       svg.addEventListener('click', () => {
+        const now = performance.now();
+        if (now - lastClickAt < CLICK_COOLDOWN_MS) return;
+        lastClickAt = now;
         if (reduced) { spawnHearts(); return; }
         stage.classList.add('happy');
         spawnHearts();
