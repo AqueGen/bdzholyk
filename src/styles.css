@@ -168,13 +168,21 @@ details[open] .faq-icon { transform: rotate(45deg); }
 .dark .bg-cream      { background-color: #18223C !important; }
 .dark .bg-white      { background-color: #1A2840 !important; }
 
-.dark .text-deep-blue  { color: #FFE066 !important; }
-.dark .text-honey-dk   { color: #FFD84A !important; }
-.dark .text-gray-700   { color: #C0CADF !important; }
-.dark .text-gray-600   { color: #9BA8BD !important; }
+.dark .text-deep-blue       { color: #E5EAF1 !important; }
+.dark .text-deep-blue\/80   { color: rgba(229,234,241,0.85) !important; }
+.dark .text-deep-blue\/70   { color: rgba(229,234,241,0.75) !important; }
+.dark .text-honey-dk        { color: #F5B800 !important; }
+.dark .text-gray-700        { color: #C0CADF !important; }
+.dark .text-gray-600        { color: #9BA8BD !important; }
+.dark .text-gray-500        { color: #8893A8 !important; }
 
+.dark .border-honey\/40 { border-color: rgba(245,184,0,0.40) !important; }
 .dark .border-honey\/30 { border-color: rgba(245,184,0,0.30) !important; }
 .dark .border-honey\/20 { border-color: rgba(245,184,0,0.22) !important; }
+
+/* Mobile nav overlay matches dark surface */
+.dark .bg-cream\/95 { background-color: rgba(15,26,46,0.96) !important; }
+.dark .hover\:bg-honey\/15:hover { background-color: rgba(245,184,0,0.18) !important; }
 
 .dark .gradient-hero {
   background:
