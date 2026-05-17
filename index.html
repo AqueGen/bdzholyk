@@ -59,6 +59,13 @@
     .bzz:hover { animation: bzz 0.4s linear infinite; }
 
     /* ====== INTERACTIVE MASCOT ====== */
+    #mascot-svg { outline: none; -webkit-tap-highlight-color: transparent; }
+    #mascot-svg:focus { outline: none; }
+    #mascot-svg:focus-visible {
+      filter:
+        drop-shadow(0 0 0.5rem rgba(245,184,0,0.7))
+        drop-shadow(0 0 1.25rem rgba(245,184,0,0.45));
+    }
     #mascot-svg #pupil-left,
     #mascot-svg #pupil-right { transition: transform 80ms ease-out; transform-box: fill-box; }
 
