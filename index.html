@@ -10,6 +10,19 @@
 
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
 
+  <!-- Early theme init (before paint, avoids flash) -->
+  <script>
+    (function () {
+      try {
+        var k = 'bdzholyk_theme';
+        var saved = localStorage.getItem(k);
+        var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var theme = saved || (prefersDark ? 'dark' : 'light');
+        if (theme === 'dark') document.documentElement.classList.add('dark');
+      } catch (e) {}
+    })();
+  </script>
+
   <!-- Canonical + hreflang -->
   <link rel="canonical" href="https://aquegen.github.io/bdzholyk/" />
   <link rel="alternate" hreflang="uk"        href="https://aquegen.github.io/bdzholyk/?lang=uk" />
@@ -99,6 +112,11 @@
             <button type="button" data-lang="en" aria-pressed="false">EN</button>
           </div>
 
+          <button type="button" class="theme-toggle" data-theme-toggle aria-label="Toggle theme" data-i18n-attr="aria-label:nav.themeAria">
+            <svg class="sun"  width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+            <svg class="moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+          </button>
+
           <a href="#join" class="bg-honey hover:bg-honey-dk text-deep-blue font-semibold px-5 py-2.5 rounded-full transition focus-ring shadow-soft" data-i18n="nav.support">
             Підтримати
           </a>
@@ -109,6 +127,10 @@
             <button type="button" data-lang="uk" aria-pressed="true">UK</button>
             <button type="button" data-lang="en" aria-pressed="false">EN</button>
           </div>
+          <button type="button" class="theme-toggle" data-theme-toggle aria-label="Toggle theme" data-i18n-attr="aria-label:nav.themeAria">
+            <svg class="sun"  width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+            <svg class="moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+          </button>
           <button id="burger" class="p-2 rounded-lg focus-ring" aria-expanded="false" aria-controls="mobile-nav" aria-label="Open menu" data-i18n-attr="aria-label:nav.menuOpen">
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0E3B6B" stroke-width="2.5" stroke-linecap="round">
               <line x1="4" y1="7"  x2="20" y2="7" />
@@ -290,7 +312,15 @@
           <article class="reveal group bg-white rounded-3xl overflow-hidden shadow-soft border border-honey/20 hover:-translate-y-1 transition">
             <div class="card-img w-full" style="background: linear-gradient(135deg, #FFB4D2 0%, #FF8FA3 50%, #C77DFF 100%); display:flex; align-items:center; justify-content:center; font-size:5rem;" role="img" aria-label="Creativity" data-i18n-attr="aria-label:dir.c1Aria">🎨</div>
             <div class="p-6">
-              <div class="w-14 h-14 rounded-2xl bg-honey/20 flex items-center justify-center text-2xl">🎨</div>
+              <div class="dir-icon w-14 h-14 rounded-2xl bg-honey/20 flex items-center justify-center">
+                <svg viewBox="0 0 28 28" width="28" height="28" fill="none" stroke="#0E3B6B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M14 3a11 11 0 1 0 0 22c1.5 0 2-1 2-2 0-1-1-1.5-1-2.5s.7-1.5 2-1.5h2c2.2 0 4-1.8 4-4A11 11 0 0 0 14 3z"/>
+                  <circle cx="9"  cy="11" r="1.5" fill="#F5B800" stroke="none"/>
+                  <circle cx="14" cy="8"  r="1.5" fill="#FF8FA3" stroke="none"/>
+                  <circle cx="19" cy="11" r="1.5" fill="#2E8B57" stroke="none"/>
+                  <circle cx="9"  cy="17" r="1.5" fill="#9D4EDD" stroke="none"/>
+                </svg>
+              </div>
               <h3 class="font-display font-bold text-xl text-deep-blue mt-4" data-i18n="dir.c1Title">Творчість та активності</h3>
               <p class="mt-2 text-gray-700" data-i18n="dir.c1Text">
                 Малювання, музика, ремесла та ігри, що розвивають уяву й допомагають дітям знайти своє.
@@ -302,7 +332,13 @@
           <article class="reveal group bg-white rounded-3xl overflow-hidden shadow-soft border border-honey/20 hover:-translate-y-1 transition">
             <div class="card-img w-full" style="background: linear-gradient(135deg, #FFE066 0%, #F5B800 50%, #D99A00 100%); display:flex; align-items:center; justify-content:center; font-size:5rem;" role="img" aria-label="Minis and Talents" data-i18n-attr="aria-label:dir.c2Aria">💰</div>
             <div class="p-6">
-              <div class="w-14 h-14 rounded-2xl bg-honey/20 flex items-center justify-center text-2xl">💰</div>
+              <div class="dir-icon w-14 h-14 rounded-2xl bg-honey/20 flex items-center justify-center">
+                <svg viewBox="0 0 28 28" width="28" height="28" fill="none" stroke="#0E3B6B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <circle cx="14" cy="14" r="9" fill="#F5B800" stroke="#0E3B6B"/>
+                  <circle cx="14" cy="14" r="6" fill="none" stroke="#0E3B6B" stroke-width="1"/>
+                  <path d="M14 9.5l1.4 2.9 3.2.5-2.3 2.3.5 3.2L14 16.9l-2.8 1.5.5-3.2-2.3-2.3 3.2-.5z" fill="#FFFFFF" stroke="#0E3B6B" stroke-width="1"/>
+                </svg>
+              </div>
               <h3 class="font-display font-bold text-xl text-deep-blue mt-4" data-i18n="dir.c2Title">МІНИ та ТАЛАНТИ</h3>
               <p class="mt-2 text-gray-700" data-i18n="dir.c2Text">
                 Дитяча «економіка» цінувань: кожна ініціатива дитини стає видимою та винагородженою.
@@ -314,7 +350,14 @@
           <article class="reveal group bg-white rounded-3xl overflow-hidden shadow-soft border border-honey/20 hover:-translate-y-1 transition">
             <div class="card-img w-full" style="background: linear-gradient(135deg, #FFA07A 0%, #FF6B6B 50%, #E63946 100%); display:flex; align-items:center; justify-content:center; font-size:5rem;" role="img" aria-label="Goals" data-i18n-attr="aria-label:dir.c3Aria">🎯</div>
             <div class="p-6">
-              <div class="w-14 h-14 rounded-2xl bg-honey/20 flex items-center justify-center text-2xl">🎯</div>
+              <div class="dir-icon w-14 h-14 rounded-2xl bg-honey/20 flex items-center justify-center">
+                <svg viewBox="0 0 28 28" width="28" height="28" fill="none" stroke="#0E3B6B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <circle cx="14" cy="14" r="10" fill="#FFFFFF" stroke="#0E3B6B"/>
+                  <circle cx="14" cy="14" r="6.5" fill="#E63946" stroke="#0E3B6B"/>
+                  <circle cx="14" cy="14" r="3"   fill="#FFFFFF" stroke="#0E3B6B"/>
+                  <path d="M14 14l8-6m0 0l-3-1m3 1l-1 3" stroke="#0E3B6B" stroke-width="2"/>
+                </svg>
+              </div>
               <h3 class="font-display font-bold text-xl text-deep-blue mt-4" data-i18n="dir.c3Title">ЦІЛИКИ</h3>
               <p class="mt-2 text-gray-700" data-i18n="dir.c3Text">
                 Командна гра, що навчає дітей ставити мету, домовлятися й досягати разом.
@@ -326,7 +369,14 @@
           <article class="reveal group bg-white rounded-3xl overflow-hidden shadow-soft border border-honey/20 hover:-translate-y-1 transition">
             <div class="card-img w-full" style="background: linear-gradient(135deg, #A8E6CF 0%, #6BCF7F 50%, #2E8B57 100%); display:flex; align-items:center; justify-content:center; font-size:5rem;" role="img" aria-label="Volecvit" data-i18n-attr="aria-label:dir.c4Aria">🌿</div>
             <div class="p-6">
-              <div class="w-14 h-14 rounded-2xl bg-honey/20 flex items-center justify-center text-2xl">🌿</div>
+              <div class="dir-icon w-14 h-14 rounded-2xl bg-honey/20 flex items-center justify-center">
+                <svg viewBox="0 0 28 28" width="28" height="28" fill="none" stroke="#0E3B6B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M14 24V10" stroke="#0E3B6B"/>
+                  <path d="M14 14C10 14 7 11 7 7c4 0 7 3 7 7z"  fill="#A8E6CF" stroke="#0E3B6B"/>
+                  <path d="M14 17c4 0 7-3 7-7-4 0-7 3-7 7z"      fill="#2E8B57" stroke="#0E3B6B"/>
+                  <circle cx="14" cy="22" r="2.5" fill="#F5B800" stroke="#0E3B6B"/>
+                </svg>
+              </div>
               <h3 class="font-display font-bold text-xl text-deep-blue mt-4" data-i18n="dir.c4Title">ВОЛЕЦВІТ на ВЕРИЖИЦІ</h3>
               <p class="mt-2 text-gray-700" data-i18n="dir.c4Text">
                 Еколого-творчий простір на природі: турбота про землю, рослини й одне одного.
@@ -338,7 +388,14 @@
           <article class="reveal group bg-white rounded-3xl overflow-hidden shadow-soft border border-honey/20 hover:-translate-y-1 transition">
             <div class="card-img w-full" style="background: linear-gradient(135deg, #74C0FC 0%, #339AF0 50%, #0E3B6B 100%); display:flex; align-items:center; justify-content:center; font-size:5rem;" role="img" aria-label="Trysuma chest" data-i18n-attr="aria-label:dir.c5Aria">🎁</div>
             <div class="p-6">
-              <div class="w-14 h-14 rounded-2xl bg-honey/20 flex items-center justify-center text-2xl">🎁</div>
+              <div class="dir-icon w-14 h-14 rounded-2xl bg-honey/20 flex items-center justify-center">
+                <svg viewBox="0 0 28 28" width="28" height="28" fill="none" stroke="#0E3B6B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <rect x="4"  y="11" width="20" height="12" rx="2" fill="#F5B800" stroke="#0E3B6B"/>
+                  <rect x="3"  y="9"  width="22" height="4"  rx="1" fill="#D99A00" stroke="#0E3B6B"/>
+                  <path d="M14 9V23" stroke="#0E3B6B" stroke-width="2"/>
+                  <path d="M14 9c-2-1.5-5-1-5 1.5C9 12 11 12 14 11c3 1 5 1 5-.5C19 8 16 7.5 14 9z" fill="#FF8FA3" stroke="#0E3B6B"/>
+                </svg>
+              </div>
               <h3 class="font-display font-bold text-xl text-deep-blue mt-4" data-i18n="dir.c5Title">ТРИСУМА СКРИНЬКА</h3>
               <p class="mt-2 text-gray-700" data-i18n="dir.c5Text">
                 Благодійна інфраструктура взаємодопомоги — місце, де добро рухається по колу.
@@ -350,7 +407,15 @@
           <article class="reveal group bg-white rounded-3xl overflow-hidden shadow-soft border border-honey/20 hover:-translate-y-1 transition">
             <div class="card-img w-full" style="background: linear-gradient(135deg, #4FB3FF 0%, #0057B7 50%, #FFD500 100%); display:flex; align-items:center; justify-content:center; font-size:5rem;" role="img" aria-label="Support for AFU" data-i18n-attr="aria-label:dir.c6Aria">🇺🇦</div>
             <div class="p-6">
-              <div class="w-14 h-14 rounded-2xl bg-green/15 flex items-center justify-center text-2xl">🇺🇦</div>
+              <div class="dir-icon w-14 h-14 rounded-2xl bg-green/15 flex items-center justify-center">
+                <svg viewBox="0 0 28 28" width="28" height="28" fill="none" stroke="#0E3B6B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M14 3l9 3v6c0 5.5-3.7 10.4-9 12-5.3-1.6-9-6.5-9-12V6z" fill="#0057B7" stroke="#0E3B6B"/>
+                  <path d="M14 14c-5.3 1.6-9 6.5-9 12 5.3-1.6 9-6.5 9-12z" fill="#FFD500" stroke="none"/>
+                  <path d="M14 14V3l9 3v6c0 5.5-3.7 10.4-9 12V14z" fill="#0057B7" stroke="none"/>
+                  <path d="M14 3l9 3v6c0 5.5-3.7 10.4-9 12-5.3-1.6-9-6.5-9-12V6z" fill="none" stroke="#0E3B6B"/>
+                  <path d="M14 9v8M11 11v4M17 11v4" stroke="#FFD500" stroke-width="1.5"/>
+                </svg>
+              </div>
               <h3 class="font-display font-bold text-xl text-deep-blue mt-4" data-i18n="dir.c6Title">Волонтерство та підтримка ЗСУ</h3>
               <p class="mt-2 text-gray-700" data-i18n="dir.c6Text">
                 Збори, плетіння сіток, листи захисникам — допомога громади тим, хто боронить.
@@ -567,6 +632,7 @@
         'nav.mainAria': 'Головне меню',
         'nav.mobileAria': 'Мобільне меню',
         'nav.langAria': 'Мова сайту',
+        'nav.themeAria': 'Перемкнути тему (світла / темна)',
         'nav.about': 'Про нас',
         'nav.directions': 'Напрямки',
         'nav.gallery': 'Галерея',
@@ -662,6 +728,7 @@
         'nav.mainAria': 'Main menu',
         'nav.mobileAria': 'Mobile menu',
         'nav.langAria': 'Site language',
+        'nav.themeAria': 'Toggle theme (light / dark)',
         'nav.about': 'About',
         'nav.directions': 'Activities',
         'nav.gallery': 'Gallery',
@@ -821,6 +888,31 @@
       btn.addEventListener('click', () => applyLang(btn.getAttribute('data-lang')));
     });
 
+    // Theme toggle wiring
+    (function () {
+      const KEY = 'bdzholyk_theme';
+      const root = document.documentElement;
+      function apply(theme) {
+        if (theme === 'dark') root.classList.add('dark'); else root.classList.remove('dark');
+        try { localStorage.setItem(KEY, theme); } catch (e) {}
+      }
+      document.querySelectorAll('[data-theme-toggle]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const next = root.classList.contains('dark') ? 'light' : 'dark';
+          apply(next);
+        });
+      });
+      // Follow system changes ONLY if user has not explicitly chosen
+      const mq = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)');
+      if (mq && mq.addEventListener) {
+        mq.addEventListener('change', e => {
+          let saved = null;
+          try { saved = localStorage.getItem(KEY); } catch (e2) {}
+          if (!saved) apply(e.matches ? 'dark' : 'light');
+        });
+      }
+    })();
+
     // Sticky header shadow
     const header = document.getElementById('site-header');
     const onScroll = () => {
@@ -850,6 +942,36 @@
         burger.setAttribute('aria-expanded', 'false');
       });
     });
+
+    // ====== HERO MASCOT PARALLAX ======
+    (function initParallax() {
+      const stage = document.getElementById('mascot-stage');
+      const hero  = document.getElementById('hero');
+      if (!stage || !hero) return;
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+      let mx = 0, my = 0, rafId = 0, hovering = false;
+      function apply() {
+        rafId = 0;
+        if (!hovering) {
+          stage.style.transform = 'translate(0, 0)';
+          return;
+        }
+        stage.style.transform = `translate(${mx.toFixed(1)}px, ${my.toFixed(1)}px)`;
+      }
+      function schedule() { if (!rafId) rafId = requestAnimationFrame(apply); }
+
+      hero.addEventListener('mouseenter', () => { hovering = true; });
+      hero.addEventListener('mouseleave', () => { hovering = false; schedule(); });
+      hero.addEventListener('mousemove', e => {
+        const r = hero.getBoundingClientRect();
+        const nx = ((e.clientX - r.left) / r.width) - 0.5;
+        const ny = ((e.clientY - r.top) / r.height) - 0.5;
+        mx = nx * -18;
+        my = ny * -12;
+        schedule();
+      }, { passive: true });
+    })();
 
     // ====== INTERACTIVE MASCOT ======
     (function initMascot() {
