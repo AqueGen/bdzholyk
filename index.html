@@ -80,6 +80,20 @@
 
     .focus-ring:focus-visible { outline: none; box-shadow: 0 0 0 4px rgba(245,184,0,0.45); border-radius: 12px; }
 
+    /* Lang switcher */
+    .lang-switch {
+      display: inline-flex; align-items: center; gap: 0;
+      background: rgba(255,255,255,0.6); backdrop-filter: blur(8px);
+      border: 1px solid rgba(14,59,107,0.15); border-radius: 9999px; padding: 3px;
+    }
+    .lang-switch button {
+      font-family: 'Inter', system-ui, sans-serif; font-weight: 600; font-size: 0.8rem;
+      padding: 0.35rem 0.85rem; border-radius: 9999px; color: #0E3B6B;
+      transition: background 0.2s, color 0.2s; min-width: 38px;
+    }
+    .lang-switch button[aria-pressed="true"] { background: #F5B800; color: #0E3B6B; }
+    .lang-switch button:hover:not([aria-pressed="true"]) { background: rgba(245,184,0,0.2); }
+
     /* Masonry-ish gallery */
     .gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
     @media (min-width: 768px) { .gallery { grid-template-columns: repeat(3, 1fr); gap: 1rem; } }
@@ -109,47 +123,59 @@
 </head>
 <body class="antialiased">
 
-  <a href="#main" class="skip-link">Перейти до основного вмісту</a>
+  <a href="#main" class="skip-link" data-i18n="skip">Перейти до основного вмісту</a>
 
   <!-- ============ HEADER / NAV ============ -->
   <header id="site-header" class="fixed top-0 inset-x-0 z-50 transition-all duration-300">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-16 md:h-20">
-        <a href="#hero" class="flex items-center gap-2 focus-ring" aria-label="На головну">
+        <a href="#hero" class="flex items-center gap-2 focus-ring" data-i18n-attr="aria-label:nav.brandAria">
           <img src="assets/favicon.svg" alt="" class="w-9 h-9 bzz" />
-          <span class="font-display font-bold text-deep-blue text-lg md:text-xl">Бджолик</span>
+          <span class="font-display font-bold text-deep-blue text-lg md:text-xl" data-i18n="nav.brand">Бджолик</span>
         </a>
 
-        <nav aria-label="Головне меню" class="hidden md:flex items-center gap-7">
-          <a href="#about"      class="nav-link text-deep-blue font-medium">Про нас</a>
-          <a href="#directions" class="nav-link text-deep-blue font-medium">Напрямки</a>
-          <a href="#gallery"    class="nav-link text-deep-blue font-medium">Галерея</a>
-          <a href="#join"       class="nav-link text-deep-blue font-medium">Долучитися</a>
-          <a href="#faq"        class="nav-link text-deep-blue font-medium">FAQ</a>
-          <a href="#join" class="bg-honey hover:bg-honey-dk text-deep-blue font-semibold px-5 py-2.5 rounded-full transition focus-ring shadow-soft">
+        <nav aria-label="Main menu" class="hidden md:flex items-center gap-6 lg:gap-7" data-i18n-attr="aria-label:nav.mainAria">
+          <a href="#about"      class="nav-link text-deep-blue font-medium" data-i18n="nav.about">Про нас</a>
+          <a href="#directions" class="nav-link text-deep-blue font-medium" data-i18n="nav.directions">Напрямки</a>
+          <a href="#gallery"    class="nav-link text-deep-blue font-medium" data-i18n="nav.gallery">Галерея</a>
+          <a href="#join"       class="nav-link text-deep-blue font-medium" data-i18n="nav.join">Долучитися</a>
+          <a href="#faq"        class="nav-link text-deep-blue font-medium" data-i18n="nav.faq">FAQ</a>
+
+          <div class="lang-switch" role="group" aria-label="Language" data-i18n-attr="aria-label:nav.langAria">
+            <button type="button" data-lang="uk" aria-pressed="true">UK</button>
+            <button type="button" data-lang="en" aria-pressed="false">EN</button>
+          </div>
+
+          <a href="#join" class="bg-honey hover:bg-honey-dk text-deep-blue font-semibold px-5 py-2.5 rounded-full transition focus-ring shadow-soft" data-i18n="nav.support">
             Підтримати
           </a>
         </nav>
 
-        <button id="burger" class="md:hidden p-2 rounded-lg focus-ring" aria-expanded="false" aria-controls="mobile-nav" aria-label="Відкрити меню">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0E3B6B" stroke-width="2.5" stroke-linecap="round">
-            <line x1="4" y1="7"  x2="20" y2="7" />
-            <line x1="4" y1="12" x2="20" y2="12" />
-            <line x1="4" y1="17" x2="20" y2="17" />
-          </svg>
-        </button>
+        <div class="md:hidden flex items-center gap-2">
+          <div class="lang-switch" role="group" aria-label="Language" data-i18n-attr="aria-label:nav.langAria">
+            <button type="button" data-lang="uk" aria-pressed="true">UK</button>
+            <button type="button" data-lang="en" aria-pressed="false">EN</button>
+          </div>
+          <button id="burger" class="p-2 rounded-lg focus-ring" aria-expanded="false" aria-controls="mobile-nav" aria-label="Open menu" data-i18n-attr="aria-label:nav.menuOpen">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0E3B6B" stroke-width="2.5" stroke-linecap="round">
+              <line x1="4" y1="7"  x2="20" y2="7" />
+              <line x1="4" y1="12" x2="20" y2="12" />
+              <line x1="4" y1="17" x2="20" y2="17" />
+            </svg>
+          </button>
+        </div>
       </div>
     </div>
 
     <!-- Mobile nav overlay -->
     <div id="mobile-nav" class="md:hidden hidden bg-cream/95 backdrop-blur border-t border-honey/30">
-      <nav aria-label="Мобільне меню" class="flex flex-col p-4 gap-1">
-        <a href="#about"      class="py-3 px-3 rounded-lg hover:bg-honey/15 text-deep-blue font-medium">Про нас</a>
-        <a href="#directions" class="py-3 px-3 rounded-lg hover:bg-honey/15 text-deep-blue font-medium">Напрямки</a>
-        <a href="#gallery"    class="py-3 px-3 rounded-lg hover:bg-honey/15 text-deep-blue font-medium">Галерея</a>
-        <a href="#join"       class="py-3 px-3 rounded-lg hover:bg-honey/15 text-deep-blue font-medium">Долучитися</a>
-        <a href="#faq"        class="py-3 px-3 rounded-lg hover:bg-honey/15 text-deep-blue font-medium">FAQ</a>
-        <a href="#join" class="mt-2 text-center bg-honey hover:bg-honey-dk text-deep-blue font-semibold py-3 rounded-full transition">
+      <nav aria-label="Mobile menu" class="flex flex-col p-4 gap-1" data-i18n-attr="aria-label:nav.mobileAria">
+        <a href="#about"      class="py-3 px-3 rounded-lg hover:bg-honey/15 text-deep-blue font-medium" data-i18n="nav.about">Про нас</a>
+        <a href="#directions" class="py-3 px-3 rounded-lg hover:bg-honey/15 text-deep-blue font-medium" data-i18n="nav.directions">Напрямки</a>
+        <a href="#gallery"    class="py-3 px-3 rounded-lg hover:bg-honey/15 text-deep-blue font-medium" data-i18n="nav.gallery">Галерея</a>
+        <a href="#join"       class="py-3 px-3 rounded-lg hover:bg-honey/15 text-deep-blue font-medium" data-i18n="nav.join">Долучитися</a>
+        <a href="#faq"        class="py-3 px-3 rounded-lg hover:bg-honey/15 text-deep-blue font-medium" data-i18n="nav.faq">FAQ</a>
+        <a href="#join" class="mt-2 text-center bg-honey hover:bg-honey-dk text-deep-blue font-semibold py-3 rounded-full transition" data-i18n="nav.support">
           Підтримати
         </a>
       </nav>
@@ -164,36 +190,36 @@
         <div class="reveal">
           <p class="inline-flex items-center gap-2 bg-white/70 backdrop-blur text-deep-blue text-sm md:text-base font-medium px-4 py-1.5 rounded-full border border-honey/40 shadow-sm">
             <span class="w-2 h-2 rounded-full bg-green"></span>
-            БО БФ «ВІРИМО – ВСЕ БУДЕ ДОБРЕ» &middot; м. Суми
+            <span data-i18n="hero.badge">БО БФ «ВІРИМО – ВСЕ БУДЕ ДОБРЕ» &middot; м. Суми</span>
           </p>
-          <h1 class="h1 font-display font-bold text-deep-blue mt-6">
+          <h1 class="h1 font-display font-bold text-deep-blue mt-6" data-i18n-html="hero.title">
             Острів щасливого дитинства, <span class="text-honey-dk">добрих справ</span> і великих мрій
           </h1>
-          <p class="lead mt-6 text-deep-blue/80 italic">
+          <p class="lead mt-6 text-deep-blue/80 italic" data-i18n="hero.slogan">
             «Від маленької дії — до великої мрії»
           </p>
-          <p class="mt-4 text-gray-700 lead">
+          <p class="mt-4 text-gray-700 lead" data-i18n="hero.lead">
             Простір, де діти, батьки та громада разом мріють, творять і роблять світ добрішим.
           </p>
           <div class="mt-8 flex flex-wrap gap-3">
-            <a href="#join" class="bg-honey hover:bg-honey-dk text-deep-blue font-semibold px-7 py-3.5 rounded-full transition focus-ring shadow-soft text-base md:text-lg">
+            <a href="#join" class="bg-honey hover:bg-honey-dk text-deep-blue font-semibold px-7 py-3.5 rounded-full transition focus-ring shadow-soft text-base md:text-lg" data-i18n="hero.ctaJoin">
               Долучитися
             </a>
-            <a href="#join" class="bg-white border-2 border-deep-blue text-deep-blue hover:bg-deep-blue hover:text-cream font-semibold px-7 py-3.5 rounded-full transition focus-ring text-base md:text-lg">
+            <a href="#join" class="bg-white border-2 border-deep-blue text-deep-blue hover:bg-deep-blue hover:text-cream font-semibold px-7 py-3.5 rounded-full transition focus-ring text-base md:text-lg" data-i18n="hero.ctaSupport">
               Підтримати
             </a>
           </div>
           <div class="mt-10 flex flex-wrap items-center gap-x-8 gap-y-3 text-sm text-gray-600">
-            <span class="flex items-center gap-2"><span class="text-honey">★</span> Сімейні цінності</span>
-            <span class="flex items-center gap-2"><span class="text-honey">★</span> Творчість</span>
-            <span class="flex items-center gap-2"><span class="text-honey">★</span> Волонтерство</span>
+            <span class="flex items-center gap-2"><span class="text-honey">★</span> <span data-i18n="hero.tag1">Сімейні цінності</span></span>
+            <span class="flex items-center gap-2"><span class="text-honey">★</span> <span data-i18n="hero.tag2">Творчість</span></span>
+            <span class="flex items-center gap-2"><span class="text-honey">★</span> <span data-i18n="hero.tag3">Волонтерство</span></span>
           </div>
         </div>
 
         <div class="flex items-center justify-center order-first md:order-last">
           <div class="relative w-full max-w-md aspect-square">
             <div class="absolute inset-0 bg-honey/20 rounded-full blur-3xl"></div>
-            <img src="assets/mascot.svg" alt="Маскот фонду — бджолик" class="relative w-full h-full float drop-shadow-xl" />
+            <img src="assets/mascot.svg" alt="Bee mascot" class="relative w-full h-full float drop-shadow-xl" data-i18n-attr="alt:hero.mascotAlt" />
           </div>
         </div>
       </div>
@@ -202,11 +228,11 @@
     <!-- ============ ABOUT ============ -->
     <section id="about" class="py-20 md:py-28 bg-soft-white">
       <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 text-center">
-        <p class="reveal text-honey-dk font-semibold tracking-widest uppercase text-sm">Про нас</p>
-        <h2 class="reveal h2 font-display font-bold text-deep-blue mt-3">
+        <p class="reveal text-honey-dk font-semibold tracking-widest uppercase text-sm" data-i18n="about.eyebrow">Про нас</p>
+        <h2 class="reveal h2 font-display font-bold text-deep-blue mt-3" data-i18n="about.title">
           Простір віри в добро та щасливого дитинства
         </h2>
-        <p class="reveal lead mt-6 text-gray-700 max-w-3xl mx-auto">
+        <p class="reveal lead mt-6 text-gray-700 max-w-3xl mx-auto" data-i18n="about.lead">
           Ми створюємо місце, де кожна дитина може мріяти, творити та бачити, як її маленькі дії
           змінюють світ. Наш «мудрий помічник» — цифровий бджолик — нагадує: разом ми робимо
           громаду теплішою, добрішою та сильнішою.
@@ -215,15 +241,15 @@
         <div class="reveal grid grid-cols-1 sm:grid-cols-3 gap-5 mt-12">
           <div class="bg-white border border-honey/30 rounded-2xl p-6 shadow-soft">
             <div class="font-display font-bold text-4xl md:text-5xl text-honey-dk">500+</div>
-            <div class="mt-2 text-deep-blue font-medium">щасливих дітей</div>
+            <div class="mt-2 text-deep-blue font-medium" data-i18n="about.stat1">щасливих дітей</div>
           </div>
           <div class="bg-white border border-honey/30 rounded-2xl p-6 shadow-soft">
             <div class="font-display font-bold text-4xl md:text-5xl text-honey-dk">120+</div>
-            <div class="mt-2 text-deep-blue font-medium">проведених подій</div>
+            <div class="mt-2 text-deep-blue font-medium" data-i18n="about.stat2">проведених подій</div>
           </div>
           <div class="bg-white border border-honey/30 rounded-2xl p-6 shadow-soft">
             <div class="font-display font-bold text-4xl md:text-5xl text-honey-dk">80+</div>
-            <div class="mt-2 text-deep-blue font-medium">активних волонтерів</div>
+            <div class="mt-2 text-deep-blue font-medium" data-i18n="about.stat3">активних волонтерів</div>
           </div>
         </div>
       </div>
@@ -233,9 +259,9 @@
     <section id="directions" class="py-20 md:py-28 bg-cream">
       <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div class="text-center max-w-2xl mx-auto">
-          <p class="reveal text-honey-dk font-semibold tracking-widest uppercase text-sm">Напрямки</p>
-          <h2 class="reveal h2 font-display font-bold text-deep-blue mt-3">Що ми робимо</h2>
-          <p class="reveal lead mt-4 text-gray-700">
+          <p class="reveal text-honey-dk font-semibold tracking-widest uppercase text-sm" data-i18n="dir.eyebrow">Напрямки</p>
+          <h2 class="reveal h2 font-display font-bold text-deep-blue mt-3" data-i18n="dir.title">Що ми робимо</h2>
+          <p class="reveal lead mt-4 text-gray-700" data-i18n="dir.lead">
             Шість напрямків, які наповнюють життя дітей та громади сенсом і теплом.
           </p>
         </div>
@@ -243,11 +269,11 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mt-14">
           <!-- 1 -->
           <article class="reveal group bg-white rounded-3xl overflow-hidden shadow-soft border border-honey/20 hover:-translate-y-1 transition">
-            <div class="card-img w-full" style="background: linear-gradient(135deg, #FFB4D2 0%, #FF8FA3 50%, #C77DFF 100%); display:flex; align-items:center; justify-content:center; font-size:5rem;" role="img" aria-label="Творчість">🎨</div>
+            <div class="card-img w-full" style="background: linear-gradient(135deg, #FFB4D2 0%, #FF8FA3 50%, #C77DFF 100%); display:flex; align-items:center; justify-content:center; font-size:5rem;" role="img" aria-label="Creativity" data-i18n-attr="aria-label:dir.c1Aria">🎨</div>
             <div class="p-6">
               <div class="w-14 h-14 rounded-2xl bg-honey/20 flex items-center justify-center text-2xl">🎨</div>
-              <h3 class="font-display font-bold text-xl text-deep-blue mt-4">Творчість та активності</h3>
-              <p class="mt-2 text-gray-700">
+              <h3 class="font-display font-bold text-xl text-deep-blue mt-4" data-i18n="dir.c1Title">Творчість та активності</h3>
+              <p class="mt-2 text-gray-700" data-i18n="dir.c1Text">
                 Малювання, музика, ремесла та ігри, що розвивають уяву й допомагають дітям знайти своє.
               </p>
             </div>
@@ -255,11 +281,11 @@
 
           <!-- 2 -->
           <article class="reveal group bg-white rounded-3xl overflow-hidden shadow-soft border border-honey/20 hover:-translate-y-1 transition">
-            <div class="card-img w-full" style="background: linear-gradient(135deg, #FFE066 0%, #F5B800 50%, #D99A00 100%); display:flex; align-items:center; justify-content:center; font-size:5rem;" role="img" aria-label="Міні та таланти">💰</div>
+            <div class="card-img w-full" style="background: linear-gradient(135deg, #FFE066 0%, #F5B800 50%, #D99A00 100%); display:flex; align-items:center; justify-content:center; font-size:5rem;" role="img" aria-label="Minis and Talents" data-i18n-attr="aria-label:dir.c2Aria">💰</div>
             <div class="p-6">
               <div class="w-14 h-14 rounded-2xl bg-honey/20 flex items-center justify-center text-2xl">💰</div>
-              <h3 class="font-display font-bold text-xl text-deep-blue mt-4">МІНИ та ТАЛАНТИ</h3>
-              <p class="mt-2 text-gray-700">
+              <h3 class="font-display font-bold text-xl text-deep-blue mt-4" data-i18n="dir.c2Title">МІНИ та ТАЛАНТИ</h3>
+              <p class="mt-2 text-gray-700" data-i18n="dir.c2Text">
                 Дитяча «економіка» цінувань: кожна ініціатива дитини стає видимою та винагородженою.
               </p>
             </div>
@@ -267,11 +293,11 @@
 
           <!-- 3 -->
           <article class="reveal group bg-white rounded-3xl overflow-hidden shadow-soft border border-honey/20 hover:-translate-y-1 transition">
-            <div class="card-img w-full" style="background: linear-gradient(135deg, #FFA07A 0%, #FF6B6B 50%, #E63946 100%); display:flex; align-items:center; justify-content:center; font-size:5rem;" role="img" aria-label="Цілики">🎯</div>
+            <div class="card-img w-full" style="background: linear-gradient(135deg, #FFA07A 0%, #FF6B6B 50%, #E63946 100%); display:flex; align-items:center; justify-content:center; font-size:5rem;" role="img" aria-label="Goals" data-i18n-attr="aria-label:dir.c3Aria">🎯</div>
             <div class="p-6">
               <div class="w-14 h-14 rounded-2xl bg-honey/20 flex items-center justify-center text-2xl">🎯</div>
-              <h3 class="font-display font-bold text-xl text-deep-blue mt-4">ЦІЛИКИ</h3>
-              <p class="mt-2 text-gray-700">
+              <h3 class="font-display font-bold text-xl text-deep-blue mt-4" data-i18n="dir.c3Title">ЦІЛИКИ</h3>
+              <p class="mt-2 text-gray-700" data-i18n="dir.c3Text">
                 Командна гра, що навчає дітей ставити мету, домовлятися й досягати разом.
               </p>
             </div>
@@ -279,11 +305,11 @@
 
           <!-- 4 -->
           <article class="reveal group bg-white rounded-3xl overflow-hidden shadow-soft border border-honey/20 hover:-translate-y-1 transition">
-            <div class="card-img w-full" style="background: linear-gradient(135deg, #A8E6CF 0%, #6BCF7F 50%, #2E8B57 100%); display:flex; align-items:center; justify-content:center; font-size:5rem;" role="img" aria-label="Волецвіт">🌿</div>
+            <div class="card-img w-full" style="background: linear-gradient(135deg, #A8E6CF 0%, #6BCF7F 50%, #2E8B57 100%); display:flex; align-items:center; justify-content:center; font-size:5rem;" role="img" aria-label="Volecvit" data-i18n-attr="aria-label:dir.c4Aria">🌿</div>
             <div class="p-6">
               <div class="w-14 h-14 rounded-2xl bg-honey/20 flex items-center justify-center text-2xl">🌿</div>
-              <h3 class="font-display font-bold text-xl text-deep-blue mt-4">ВОЛЕЦВІТ на ВЕРИЖИЦІ</h3>
-              <p class="mt-2 text-gray-700">
+              <h3 class="font-display font-bold text-xl text-deep-blue mt-4" data-i18n="dir.c4Title">ВОЛЕЦВІТ на ВЕРИЖИЦІ</h3>
+              <p class="mt-2 text-gray-700" data-i18n="dir.c4Text">
                 Еколого-творчий простір на природі: турбота про землю, рослини й одне одного.
               </p>
             </div>
@@ -291,11 +317,11 @@
 
           <!-- 5 -->
           <article class="reveal group bg-white rounded-3xl overflow-hidden shadow-soft border border-honey/20 hover:-translate-y-1 transition">
-            <div class="card-img w-full" style="background: linear-gradient(135deg, #74C0FC 0%, #339AF0 50%, #0E3B6B 100%); display:flex; align-items:center; justify-content:center; font-size:5rem;" role="img" aria-label="Трисума скринька">🎁</div>
+            <div class="card-img w-full" style="background: linear-gradient(135deg, #74C0FC 0%, #339AF0 50%, #0E3B6B 100%); display:flex; align-items:center; justify-content:center; font-size:5rem;" role="img" aria-label="Trysuma chest" data-i18n-attr="aria-label:dir.c5Aria">🎁</div>
             <div class="p-6">
               <div class="w-14 h-14 rounded-2xl bg-honey/20 flex items-center justify-center text-2xl">🎁</div>
-              <h3 class="font-display font-bold text-xl text-deep-blue mt-4">ТРИСУМА СКРИНЬКА</h3>
-              <p class="mt-2 text-gray-700">
+              <h3 class="font-display font-bold text-xl text-deep-blue mt-4" data-i18n="dir.c5Title">ТРИСУМА СКРИНЬКА</h3>
+              <p class="mt-2 text-gray-700" data-i18n="dir.c5Text">
                 Благодійна інфраструктура взаємодопомоги — місце, де добро рухається по колу.
               </p>
             </div>
@@ -303,11 +329,11 @@
 
           <!-- 6 -->
           <article class="reveal group bg-white rounded-3xl overflow-hidden shadow-soft border border-honey/20 hover:-translate-y-1 transition">
-            <div class="card-img w-full" style="background: linear-gradient(135deg, #4FB3FF 0%, #0057B7 50%, #FFD500 100%); display:flex; align-items:center; justify-content:center; font-size:5rem;" role="img" aria-label="Підтримка ЗСУ">🇺🇦</div>
+            <div class="card-img w-full" style="background: linear-gradient(135deg, #4FB3FF 0%, #0057B7 50%, #FFD500 100%); display:flex; align-items:center; justify-content:center; font-size:5rem;" role="img" aria-label="Support for AFU" data-i18n-attr="aria-label:dir.c6Aria">🇺🇦</div>
             <div class="p-6">
               <div class="w-14 h-14 rounded-2xl bg-green/15 flex items-center justify-center text-2xl">🇺🇦</div>
-              <h3 class="font-display font-bold text-xl text-deep-blue mt-4">Волонтерство та підтримка ЗСУ</h3>
-              <p class="mt-2 text-gray-700">
+              <h3 class="font-display font-bold text-xl text-deep-blue mt-4" data-i18n="dir.c6Title">Волонтерство та підтримка ЗСУ</h3>
+              <p class="mt-2 text-gray-700" data-i18n="dir.c6Text">
                 Збори, плетіння сіток, листи захисникам — допомога громади тим, хто боронить.
               </p>
             </div>
@@ -320,20 +346,20 @@
     <section id="gallery" class="py-20 md:py-28 bg-soft-white">
       <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div class="text-center max-w-2xl mx-auto">
-          <p class="reveal text-honey-dk font-semibold tracking-widest uppercase text-sm">Галерея</p>
-          <h2 class="reveal h2 font-display font-bold text-deep-blue mt-3">Моменти, які надихають</h2>
-          <p class="reveal lead mt-4 text-gray-700">Фрагменти подій, посмішок та спільної праці.</p>
+          <p class="reveal text-honey-dk font-semibold tracking-widest uppercase text-sm" data-i18n="gallery.eyebrow">Галерея</p>
+          <h2 class="reveal h2 font-display font-bold text-deep-blue mt-3" data-i18n="gallery.title">Моменти, які надихають</h2>
+          <p class="reveal lead mt-4 text-gray-700" data-i18n="gallery.lead">Фрагменти подій, посмішок та спільної праці.</p>
         </div>
 
         <div class="gallery reveal mt-12">
-          <div class="tile tall" style="background: linear-gradient(160deg, #FFE066, #F5B800 60%, #D99A00); display:flex; align-items:center; justify-content:center; font-size:5rem;" role="img" aria-label="Захід фонду">🌟</div>
-          <div class="tile" style="background: linear-gradient(160deg, #FFB4D2, #FF8FA3); display:flex; align-items:center; justify-content:center; font-size:4rem;" role="img" aria-label="Творча майстерня">🎵</div>
-          <div class="tile" style="background: linear-gradient(160deg, #A8E6CF, #2E8B57); display:flex; align-items:center; justify-content:center; font-size:4rem;" role="img" aria-label="Командна гра">🎈</div>
-          <div class="tile tall" style="background: linear-gradient(160deg, #74C0FC, #339AF0 60%, #0E3B6B); display:flex; align-items:center; justify-content:center; font-size:5rem;" role="img" aria-label="Природний простір">🌈</div>
-          <div class="tile" style="background: linear-gradient(160deg, #C77DFF, #9D4EDD); display:flex; align-items:center; justify-content:center; font-size:4rem;" role="img" aria-label="Свято для дітей">🎪</div>
-          <div class="tile" style="background: linear-gradient(160deg, #FFE066, #F5B800); display:flex; align-items:center; justify-content:center; font-size:4rem;" role="img" aria-label="Волонтерська зустріч">🎨</div>
-          <div class="tile" style="background: linear-gradient(160deg, #FFA07A, #E63946); display:flex; align-items:center; justify-content:center; font-size:4rem;" role="img" aria-label="Спільна творчість">🌻</div>
-          <div class="tile" style="background: linear-gradient(160deg, #4FB3FF, #0057B7); display:flex; align-items:center; justify-content:center; font-size:4rem;" role="img" aria-label="Підтримка громади">🎁</div>
+          <div class="tile tall" style="background: linear-gradient(160deg, #FFE066, #F5B800 60%, #D99A00); display:flex; align-items:center; justify-content:center; font-size:5rem;" role="img" aria-label="Event" data-i18n-attr="aria-label:gallery.t1">🌟</div>
+          <div class="tile" style="background: linear-gradient(160deg, #FFB4D2, #FF8FA3); display:flex; align-items:center; justify-content:center; font-size:4rem;" role="img" aria-label="Workshop" data-i18n-attr="aria-label:gallery.t2">🎵</div>
+          <div class="tile" style="background: linear-gradient(160deg, #A8E6CF, #2E8B57); display:flex; align-items:center; justify-content:center; font-size:4rem;" role="img" aria-label="Team game" data-i18n-attr="aria-label:gallery.t3">🎈</div>
+          <div class="tile tall" style="background: linear-gradient(160deg, #74C0FC, #339AF0 60%, #0E3B6B); display:flex; align-items:center; justify-content:center; font-size:5rem;" role="img" aria-label="Nature space" data-i18n-attr="aria-label:gallery.t4">🌈</div>
+          <div class="tile" style="background: linear-gradient(160deg, #C77DFF, #9D4EDD); display:flex; align-items:center; justify-content:center; font-size:4rem;" role="img" aria-label="Kids celebration" data-i18n-attr="aria-label:gallery.t5">🎪</div>
+          <div class="tile" style="background: linear-gradient(160deg, #FFE066, #F5B800); display:flex; align-items:center; justify-content:center; font-size:4rem;" role="img" aria-label="Volunteer meetup" data-i18n-attr="aria-label:gallery.t6">🎨</div>
+          <div class="tile" style="background: linear-gradient(160deg, #FFA07A, #E63946); display:flex; align-items:center; justify-content:center; font-size:4rem;" role="img" aria-label="Shared creativity" data-i18n-attr="aria-label:gallery.t7">🌻</div>
+          <div class="tile" style="background: linear-gradient(160deg, #4FB3FF, #0057B7); display:flex; align-items:center; justify-content:center; font-size:4rem;" role="img" aria-label="Community support" data-i18n-attr="aria-label:gallery.t8">🎁</div>
         </div>
       </div>
     </section>
@@ -345,35 +371,35 @@
 
       <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div class="text-center max-w-2xl mx-auto">
-          <p class="reveal text-honey font-semibold tracking-widest uppercase text-sm">Як долучитися</p>
-          <h2 class="reveal h2 font-display font-bold text-cream mt-3">Разом ми можемо більше</h2>
-          <p class="reveal lead mt-4 text-cream/80">Оберіть свій шлях — кожен крок робить світ теплішим.</p>
+          <p class="reveal text-honey font-semibold tracking-widest uppercase text-sm" data-i18n="join.eyebrow">Як долучитися</p>
+          <h2 class="reveal h2 font-display font-bold text-cream mt-3" data-i18n="join.title">Разом ми можемо більше</h2>
+          <p class="reveal lead mt-4 text-cream/80" data-i18n="join.lead">Оберіть свій шлях — кожен крок робить світ теплішим.</p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mt-14">
           <div class="reveal bg-cream/5 backdrop-blur border border-cream/20 rounded-3xl p-7 hover:bg-cream/10 transition">
             <div class="w-14 h-14 rounded-2xl bg-honey text-deep-blue flex items-center justify-center text-2xl">🤝</div>
-            <h3 class="font-display font-bold text-2xl mt-5">Стати волонтером</h3>
-            <p class="mt-3 text-cream/80">Долучайтеся до подій, майстерень та зборів. Час — найцінніший ресурс.</p>
-            <a href="mailto:hello@bdzholyk.example" class="mt-6 inline-block bg-honey hover:bg-honey-dk text-deep-blue font-semibold px-6 py-3 rounded-full transition focus-ring">
+            <h3 class="font-display font-bold text-2xl mt-5" data-i18n="join.vTitle">Стати волонтером</h3>
+            <p class="mt-3 text-cream/80" data-i18n="join.vText">Долучайтеся до подій, майстерень та зборів. Час — найцінніший ресурс.</p>
+            <a href="mailto:hello@bdzholyk.example" class="mt-6 inline-block bg-honey hover:bg-honey-dk text-deep-blue font-semibold px-6 py-3 rounded-full transition focus-ring" data-i18n="join.vBtn">
               Написати нам
             </a>
           </div>
 
           <div class="reveal bg-cream/5 backdrop-blur border border-cream/20 rounded-3xl p-7 hover:bg-cream/10 transition">
             <div class="w-14 h-14 rounded-2xl bg-honey text-deep-blue flex items-center justify-center text-2xl">💛</div>
-            <h3 class="font-display font-bold text-2xl mt-5">Підтримати фінансово</h3>
-            <p class="mt-3 text-cream/80">Будь-яка сума допомагає організовувати події та підтримувати дітей.</p>
-            <a href="#contact" class="mt-6 inline-block bg-honey hover:bg-honey-dk text-deep-blue font-semibold px-6 py-3 rounded-full transition focus-ring">
+            <h3 class="font-display font-bold text-2xl mt-5" data-i18n="join.dTitle">Підтримати фінансово</h3>
+            <p class="mt-3 text-cream/80" data-i18n="join.dText">Будь-яка сума допомагає організовувати події та підтримувати дітей.</p>
+            <a href="#contact" class="mt-6 inline-block bg-honey hover:bg-honey-dk text-deep-blue font-semibold px-6 py-3 rounded-full transition focus-ring" data-i18n="join.dBtn">
               Реквізити
             </a>
           </div>
 
           <div class="reveal bg-cream/5 backdrop-blur border border-cream/20 rounded-3xl p-7 hover:bg-cream/10 transition">
             <div class="w-14 h-14 rounded-2xl bg-honey text-deep-blue flex items-center justify-center text-2xl">🤲</div>
-            <h3 class="font-display font-bold text-2xl mt-5">Стати партнером</h3>
-            <p class="mt-3 text-cream/80">Бізнес, медіа чи інші організації — ми відкриті до співпраці.</p>
-            <a href="mailto:partners@bdzholyk.example" class="mt-6 inline-block bg-honey hover:bg-honey-dk text-deep-blue font-semibold px-6 py-3 rounded-full transition focus-ring">
+            <h3 class="font-display font-bold text-2xl mt-5" data-i18n="join.pTitle">Стати партнером</h3>
+            <p class="mt-3 text-cream/80" data-i18n="join.pText">Бізнес, медіа чи інші організації — ми відкриті до співпраці.</p>
+            <a href="mailto:partners@bdzholyk.example" class="mt-6 inline-block bg-honey hover:bg-honey-dk text-deep-blue font-semibold px-6 py-3 rounded-full transition focus-ring" data-i18n="join.pBtn">
               Поговорити
             </a>
           </div>
@@ -385,67 +411,67 @@
     <section id="faq" class="py-20 md:py-28 bg-cream">
       <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
         <div class="text-center">
-          <p class="reveal text-honey-dk font-semibold tracking-widest uppercase text-sm">FAQ</p>
-          <h2 class="reveal h2 font-display font-bold text-deep-blue mt-3">Часті питання</h2>
+          <p class="reveal text-honey-dk font-semibold tracking-widest uppercase text-sm" data-i18n="faq.eyebrow">FAQ</p>
+          <h2 class="reveal h2 font-display font-bold text-deep-blue mt-3" data-i18n="faq.title">Часті питання</h2>
         </div>
 
         <div class="mt-10 space-y-3">
           <details class="reveal group bg-white rounded-2xl border border-honey/30 shadow-soft">
             <summary class="flex justify-between items-center p-5 md:p-6 focus-ring">
-              <span class="font-display font-bold text-lg md:text-xl text-deep-blue">Хто ми?</span>
+              <span class="font-display font-bold text-lg md:text-xl text-deep-blue" data-i18n="faq.q1">Хто ми?</span>
               <span class="faq-icon text-3xl text-honey transition-transform">+</span>
             </summary>
-            <div class="px-5 md:px-6 pb-6 text-gray-700">
+            <div class="px-5 md:px-6 pb-6 text-gray-700" data-i18n="faq.a1">
               БО БФ «ВІРИМО – ВСЕ БУДЕ ДОБРЕ» — благодійна організація з міста Суми, що працює для дітей, родин і громади через творчість, освіту й волонтерство.
             </div>
           </details>
 
           <details class="reveal group bg-white rounded-2xl border border-honey/30 shadow-soft">
             <summary class="flex justify-between items-center p-5 md:p-6 focus-ring">
-              <span class="font-display font-bold text-lg md:text-xl text-deep-blue">Як стати волонтером?</span>
+              <span class="font-display font-bold text-lg md:text-xl text-deep-blue" data-i18n="faq.q2">Як стати волонтером?</span>
               <span class="faq-icon text-3xl text-honey transition-transform">+</span>
             </summary>
-            <div class="px-5 md:px-6 pb-6 text-gray-700">
+            <div class="px-5 md:px-6 pb-6 text-gray-700" data-i18n="faq.a2">
               Напишіть нам в соцмережах або електронною поштою. Ми запросимо вас на знайомство і покажемо актуальні напрямки, де потрібна допомога.
             </div>
           </details>
 
           <details class="reveal group bg-white rounded-2xl border border-honey/30 shadow-soft">
             <summary class="flex justify-between items-center p-5 md:p-6 focus-ring">
-              <span class="font-display font-bold text-lg md:text-xl text-deep-blue">Як підтримати фінансово?</span>
+              <span class="font-display font-bold text-lg md:text-xl text-deep-blue" data-i18n="faq.q3">Як підтримати фінансово?</span>
               <span class="faq-icon text-3xl text-honey transition-transform">+</span>
             </summary>
-            <div class="px-5 md:px-6 pb-6 text-gray-700">
+            <div class="px-5 md:px-6 pb-6 text-gray-700" data-i18n="faq.a3">
               Реквізити для переказу — у розділі «Контакти». Кожна гривня йде на події для дітей та підтримку громади.
             </div>
           </details>
 
           <details class="reveal group bg-white rounded-2xl border border-honey/30 shadow-soft">
             <summary class="flex justify-between items-center p-5 md:p-6 focus-ring">
-              <span class="font-display font-bold text-lg md:text-xl text-deep-blue">Чи можна привести дитину?</span>
+              <span class="font-display font-bold text-lg md:text-xl text-deep-blue" data-i18n="faq.q4">Чи можна привести дитину?</span>
               <span class="faq-icon text-3xl text-honey transition-transform">+</span>
             </summary>
-            <div class="px-5 md:px-6 pb-6 text-gray-700">
+            <div class="px-5 md:px-6 pb-6 text-gray-700" data-i18n="faq.a4">
               Так. Наші заходи відкриті для дітей різного віку. Розклад подій публікується у соцмережах.
             </div>
           </details>
 
           <details class="reveal group bg-white rounded-2xl border border-honey/30 shadow-soft">
             <summary class="flex justify-between items-center p-5 md:p-6 focus-ring">
-              <span class="font-display font-bold text-lg md:text-xl text-deep-blue">Де ви знаходитесь?</span>
+              <span class="font-display font-bold text-lg md:text-xl text-deep-blue" data-i18n="faq.q5">Де ви знаходитесь?</span>
               <span class="faq-icon text-3xl text-honey transition-transform">+</span>
             </summary>
-            <div class="px-5 md:px-6 pb-6 text-gray-700">
+            <div class="px-5 md:px-6 pb-6 text-gray-700" data-i18n="faq.a5">
               Місто Суми. Простір ВОЛЕЦВІТ на ВЕРИЖИЦІ — наша основна творчо-екологічна локація. Точна адреса надається після контакту.
             </div>
           </details>
 
           <details class="reveal group bg-white rounded-2xl border border-honey/30 shadow-soft">
             <summary class="flex justify-between items-center p-5 md:p-6 focus-ring">
-              <span class="font-display font-bold text-lg md:text-xl text-deep-blue">Як з вами зв'язатися?</span>
+              <span class="font-display font-bold text-lg md:text-xl text-deep-blue" data-i18n="faq.q6">Як з вами зв'язатися?</span>
               <span class="faq-icon text-3xl text-honey transition-transform">+</span>
             </summary>
-            <div class="px-5 md:px-6 pb-6 text-gray-700">
+            <div class="px-5 md:px-6 pb-6 text-gray-700" data-i18n="faq.a6">
               Електронна пошта та соцмережі — нижче в підвалі сайту. Відповідаємо протягом 1-2 днів.
             </div>
           </details>
@@ -459,29 +485,29 @@
         <div>
           <div class="flex items-center gap-3">
             <img src="assets/favicon.svg" alt="" class="w-10 h-10" />
-            <span class="font-display font-bold text-xl">Бджолик</span>
+            <span class="font-display font-bold text-xl" data-i18n="nav.brand">Бджолик</span>
           </div>
-          <p class="mt-4 text-cream/80">
+          <p class="mt-4 text-cream/80" data-i18n-html="footer.about">
             БО БФ «ВІРИМО – ВСЕ БУДЕ ДОБРЕ»<br/>
             <em>«Від маленької дії — до великої мрії»</em>
           </p>
         </div>
 
-        <nav aria-label="Підвальне меню">
-          <h3 class="font-display font-bold text-lg text-honey">Розділи</h3>
+        <nav aria-label="Footer menu" data-i18n-attr="aria-label:footer.menuAria">
+          <h3 class="font-display font-bold text-lg text-honey" data-i18n="footer.sectionsTitle">Розділи</h3>
           <ul class="mt-4 space-y-2">
-            <li><a href="#about"      class="hover:text-honey transition">Про нас</a></li>
-            <li><a href="#directions" class="hover:text-honey transition">Напрямки</a></li>
-            <li><a href="#gallery"    class="hover:text-honey transition">Галерея</a></li>
-            <li><a href="#join"       class="hover:text-honey transition">Долучитися</a></li>
-            <li><a href="#faq"        class="hover:text-honey transition">FAQ</a></li>
+            <li><a href="#about"      class="hover:text-honey transition" data-i18n="nav.about">Про нас</a></li>
+            <li><a href="#directions" class="hover:text-honey transition" data-i18n="nav.directions">Напрямки</a></li>
+            <li><a href="#gallery"    class="hover:text-honey transition" data-i18n="nav.gallery">Галерея</a></li>
+            <li><a href="#join"       class="hover:text-honey transition" data-i18n="nav.join">Долучитися</a></li>
+            <li><a href="#faq"        class="hover:text-honey transition" data-i18n="nav.faq">FAQ</a></li>
           </ul>
         </nav>
 
         <div>
-          <h3 class="font-display font-bold text-lg text-honey">Контакти</h3>
+          <h3 class="font-display font-bold text-lg text-honey" data-i18n="footer.contactsTitle">Контакти</h3>
           <ul class="mt-4 space-y-2 text-cream/85">
-            <li>м. Суми, Україна</li>
+            <li data-i18n="footer.location">м. Суми, Україна</li>
             <li><a href="mailto:hello@bdzholyk.example" class="hover:text-honey transition">hello@bdzholyk.example</a></li>
             <li><a href="tel:+380000000000" class="hover:text-honey transition">+380 (00) 000 00 00</a></li>
           </ul>
@@ -504,17 +530,277 @@
       </div>
 
       <div class="mt-12 border-t border-cream/15 pt-6 text-center text-cream/60 text-sm">
-        © <span id="year"></span> БО БФ «ВІРИМО – ВСЕ БУДЕ ДОБРЕ». Усі права захищено. Зроблено з 💛 у Сумах.
+        <span data-i18n="footer.copyLeft">© <span id="year"></span> БО БФ «ВІРИМО – ВСЕ БУДЕ ДОБРЕ». Усі права захищено.</span>
+        <span data-i18n="footer.copyRight"> Зроблено з 💛 у Сумах.</span>
       </div>
     </footer>
   </main>
 
+  <!-- ============ i18n DICTIONARY ============ -->
   <script>
-    // Enable JS-only enhancements (reveal hidden by default only when JS active)
+    const I18N = {
+      uk: {
+        'doc.title': 'Бджолик 🐝 — Острів щасливого дитинства | м. Суми',
+        'doc.desc':  'БО БФ «ВІРИМО – ВСЕ БУДЕ ДОБРЕ» — простір віри в добро та щасливого дитинства. Творчість, спільні мрії, волонтерство. Місто Суми.',
+        'skip': 'Перейти до основного вмісту',
+        'nav.brand': 'Бджолик',
+        'nav.brandAria': 'На головну',
+        'nav.mainAria': 'Головне меню',
+        'nav.mobileAria': 'Мобільне меню',
+        'nav.langAria': 'Мова сайту',
+        'nav.about': 'Про нас',
+        'nav.directions': 'Напрямки',
+        'nav.gallery': 'Галерея',
+        'nav.join': 'Долучитися',
+        'nav.faq': 'FAQ',
+        'nav.support': 'Підтримати',
+        'nav.menuOpen': 'Відкрити меню',
+        'nav.menuClose': 'Закрити меню',
+        'hero.badge': 'БО БФ «ВІРИМО – ВСЕ БУДЕ ДОБРЕ» · м. Суми',
+        'hero.title': 'Острів щасливого дитинства, <span class="text-honey-dk">добрих справ</span> і великих мрій',
+        'hero.slogan': '«Від маленької дії — до великої мрії»',
+        'hero.lead': 'Простір, де діти, батьки та громада разом мріють, творять і роблять світ добрішим.',
+        'hero.ctaJoin': 'Долучитися',
+        'hero.ctaSupport': 'Підтримати',
+        'hero.tag1': 'Сімейні цінності',
+        'hero.tag2': 'Творчість',
+        'hero.tag3': 'Волонтерство',
+        'hero.mascotAlt': 'Маскот фонду — бджолик',
+        'about.eyebrow': 'Про нас',
+        'about.title': 'Простір віри в добро та щасливого дитинства',
+        'about.lead': 'Ми створюємо місце, де кожна дитина може мріяти, творити та бачити, як її маленькі дії змінюють світ. Наш «мудрий помічник» — цифровий бджолик — нагадує: разом ми робимо громаду теплішою, добрішою та сильнішою.',
+        'about.stat1': 'щасливих дітей',
+        'about.stat2': 'проведених подій',
+        'about.stat3': 'активних волонтерів',
+        'dir.eyebrow': 'Напрямки',
+        'dir.title': 'Що ми робимо',
+        'dir.lead': 'Шість напрямків, які наповнюють життя дітей та громади сенсом і теплом.',
+        'dir.c1Title': 'Творчість та активності',
+        'dir.c1Text': 'Малювання, музика, ремесла та ігри, що розвивають уяву й допомагають дітям знайти своє.',
+        'dir.c1Aria': 'Творчість',
+        'dir.c2Title': 'МІНИ та ТАЛАНТИ',
+        'dir.c2Text': 'Дитяча «економіка» цінувань: кожна ініціатива дитини стає видимою та винагородженою.',
+        'dir.c2Aria': 'Міні та таланти',
+        'dir.c3Title': 'ЦІЛИКИ',
+        'dir.c3Text': 'Командна гра, що навчає дітей ставити мету, домовлятися й досягати разом.',
+        'dir.c3Aria': 'Цілики',
+        'dir.c4Title': 'ВОЛЕЦВІТ на ВЕРИЖИЦІ',
+        'dir.c4Text': 'Еколого-творчий простір на природі: турбота про землю, рослини й одне одного.',
+        'dir.c4Aria': 'Волецвіт',
+        'dir.c5Title': 'ТРИСУМА СКРИНЬКА',
+        'dir.c5Text': 'Благодійна інфраструктура взаємодопомоги — місце, де добро рухається по колу.',
+        'dir.c5Aria': 'Трисума скринька',
+        'dir.c6Title': 'Волонтерство та підтримка ЗСУ',
+        'dir.c6Text': 'Збори, плетіння сіток, листи захисникам — допомога громади тим, хто боронить.',
+        'dir.c6Aria': 'Підтримка ЗСУ',
+        'gallery.eyebrow': 'Галерея',
+        'gallery.title': 'Моменти, які надихають',
+        'gallery.lead': 'Фрагменти подій, посмішок та спільної праці.',
+        'gallery.t1': 'Захід фонду', 'gallery.t2': 'Творча майстерня',
+        'gallery.t3': 'Командна гра', 'gallery.t4': 'Природний простір',
+        'gallery.t5': 'Свято для дітей', 'gallery.t6': 'Волонтерська зустріч',
+        'gallery.t7': 'Спільна творчість', 'gallery.t8': 'Підтримка громади',
+        'join.eyebrow': 'Як долучитися',
+        'join.title': 'Разом ми можемо більше',
+        'join.lead': 'Оберіть свій шлях — кожен крок робить світ теплішим.',
+        'join.vTitle': 'Стати волонтером',
+        'join.vText': 'Долучайтеся до подій, майстерень та зборів. Час — найцінніший ресурс.',
+        'join.vBtn': 'Написати нам',
+        'join.dTitle': 'Підтримати фінансово',
+        'join.dText': 'Будь-яка сума допомагає організовувати події та підтримувати дітей.',
+        'join.dBtn': 'Реквізити',
+        'join.pTitle': 'Стати партнером',
+        'join.pText': 'Бізнес, медіа чи інші організації — ми відкриті до співпраці.',
+        'join.pBtn': 'Поговорити',
+        'faq.eyebrow': 'FAQ',
+        'faq.title': 'Часті питання',
+        'faq.q1': 'Хто ми?',
+        'faq.a1': 'БО БФ «ВІРИМО – ВСЕ БУДЕ ДОБРЕ» — благодійна організація з міста Суми, що працює для дітей, родин і громади через творчість, освіту й волонтерство.',
+        'faq.q2': 'Як стати волонтером?',
+        'faq.a2': 'Напишіть нам в соцмережах або електронною поштою. Ми запросимо вас на знайомство і покажемо актуальні напрямки, де потрібна допомога.',
+        'faq.q3': 'Як підтримати фінансово?',
+        'faq.a3': 'Реквізити для переказу — у розділі «Контакти». Кожна гривня йде на події для дітей та підтримку громади.',
+        'faq.q4': 'Чи можна привести дитину?',
+        'faq.a4': 'Так. Наші заходи відкриті для дітей різного віку. Розклад подій публікується у соцмережах.',
+        'faq.q5': 'Де ви знаходитесь?',
+        'faq.a5': 'Місто Суми. Простір ВОЛЕЦВІТ на ВЕРИЖИЦІ — наша основна творчо-екологічна локація. Точна адреса надається після контакту.',
+        'faq.q6': 'Як з вами зв’язатися?',
+        'faq.a6': 'Електронна пошта та соцмережі — нижче в підвалі сайту. Відповідаємо протягом 1-2 днів.',
+        'footer.about': 'БО БФ «ВІРИМО – ВСЕ БУДЕ ДОБРЕ»<br/><em>«Від маленької дії — до великої мрії»</em>',
+        'footer.sectionsTitle': 'Розділи',
+        'footer.contactsTitle': 'Контакти',
+        'footer.location': 'м. Суми, Україна',
+        'footer.menuAria': 'Підвальне меню',
+        'footer.copyLeft':  '© ' + new Date().getFullYear() + ' БО БФ «ВІРИМО – ВСЕ БУДЕ ДОБРЕ». Усі права захищено.',
+        'footer.copyRight': ' Зроблено з 💛 у Сумах.',
+      },
+      en: {
+        'doc.title': 'Bdzholyk 🐝 — Island of Happy Childhood | Sumy',
+        'doc.desc':  'NGO Charitable Foundation "WE BELIEVE - ALL WILL BE WELL" - a space for faith in goodness and a happy childhood. Creativity, shared dreams, volunteering. City of Sumy.',
+        'skip': 'Skip to main content',
+        'nav.brand': 'Bdzholyk',
+        'nav.brandAria': 'Back to top',
+        'nav.mainAria': 'Main menu',
+        'nav.mobileAria': 'Mobile menu',
+        'nav.langAria': 'Site language',
+        'nav.about': 'About',
+        'nav.directions': 'Activities',
+        'nav.gallery': 'Gallery',
+        'nav.join': 'Get involved',
+        'nav.faq': 'FAQ',
+        'nav.support': 'Support us',
+        'nav.menuOpen': 'Open menu',
+        'nav.menuClose': 'Close menu',
+        'hero.badge': 'NGO CF "WE BELIEVE - ALL WILL BE WELL" · Sumy, Ukraine',
+        'hero.title': 'An island of happy childhood, <span class="text-honey-dk">good deeds</span>, and big dreams',
+        'hero.slogan': '"From a small action - to a great dream"',
+        'hero.lead': 'A space where children, parents and community dream together, create and make the world kinder.',
+        'hero.ctaJoin': 'Get involved',
+        'hero.ctaSupport': 'Support us',
+        'hero.tag1': 'Family values',
+        'hero.tag2': 'Creativity',
+        'hero.tag3': 'Volunteering',
+        'hero.mascotAlt': 'Foundation mascot - a bee',
+        'about.eyebrow': 'About us',
+        'about.title': 'A space for faith in goodness and happy childhood',
+        'about.lead': 'We build a place where every child can dream, create, and see how their small actions change the world. Our "wise helper" - the digital bee - reminds us: together we make the community warmer, kinder and stronger.',
+        'about.stat1': 'happy kids',
+        'about.stat2': 'events held',
+        'about.stat3': 'active volunteers',
+        'dir.eyebrow': 'Activities',
+        'dir.title': 'What we do',
+        'dir.lead': 'Six directions that fill the lives of children and community with meaning and warmth.',
+        'dir.c1Title': 'Creativity & activities',
+        'dir.c1Text': 'Drawing, music, crafts and games that grow imagination and help kids find their own voice.',
+        'dir.c1Aria': 'Creativity',
+        'dir.c2Title': 'MINIS & TALENTS',
+        'dir.c2Text': 'A kids "economy" of appreciation: every child’s initiative becomes visible and celebrated.',
+        'dir.c2Aria': 'Minis and talents',
+        'dir.c3Title': 'TSILYKY (Goals)',
+        'dir.c3Text': 'A team game that teaches kids to set goals, negotiate, and achieve together.',
+        'dir.c3Aria': 'Goals',
+        'dir.c4Title': 'VOLETSVIT at VERYZHYTSIA',
+        'dir.c4Text': 'An eco-creative space in nature: care for land, plants and each other.',
+        'dir.c4Aria': 'Voletsvit',
+        'dir.c5Title': 'TRYSUMA CHEST',
+        'dir.c5Text': 'A charity infrastructure of mutual aid - a place where kindness moves in a circle.',
+        'dir.c5Aria': 'Trysuma chest',
+        'dir.c6Title': 'Volunteering & support for AFU',
+        'dir.c6Text': 'Fundraising, weaving camo nets, letters to defenders - community help for those who protect.',
+        'dir.c6Aria': 'Support for AFU',
+        'gallery.eyebrow': 'Gallery',
+        'gallery.title': 'Moments that inspire',
+        'gallery.lead': 'Fragments of events, smiles and shared work.',
+        'gallery.t1': 'Foundation event', 'gallery.t2': 'Creative workshop',
+        'gallery.t3': 'Team game', 'gallery.t4': 'Natural space',
+        'gallery.t5': 'Kids celebration', 'gallery.t6': 'Volunteer meetup',
+        'gallery.t7': 'Shared creativity', 'gallery.t8': 'Community support',
+        'join.eyebrow': 'Get involved',
+        'join.title': 'Together we can do more',
+        'join.lead': 'Choose your path - every step makes the world warmer.',
+        'join.vTitle': 'Become a volunteer',
+        'join.vText': 'Join events, workshops and fundraisers. Time is the most precious resource.',
+        'join.vBtn': 'Write to us',
+        'join.dTitle': 'Donate',
+        'join.dText': 'Any amount helps us organize events and support children.',
+        'join.dBtn': 'Details',
+        'join.pTitle': 'Become a partner',
+        'join.pText': 'Businesses, media and other organizations - we are open to collaboration.',
+        'join.pBtn': 'Get in touch',
+        'faq.eyebrow': 'FAQ',
+        'faq.title': 'Frequently asked questions',
+        'faq.q1': 'Who are we?',
+        'faq.a1': 'NGO CF "WE BELIEVE - ALL WILL BE WELL" is a charitable organization from Sumy, Ukraine, working for children, families and community through creativity, education and volunteering.',
+        'faq.q2': 'How can I become a volunteer?',
+        'faq.a2': 'Reach out via social media or email. We will invite you for a meet-and-greet and show you current directions where help is needed.',
+        'faq.q3': 'How can I support financially?',
+        'faq.a3': 'Donation details are in the "Contacts" section. Every contribution funds events for kids and community support.',
+        'faq.q4': 'Can I bring my child?',
+        'faq.a4': 'Yes. Our events are open to children of various ages. The schedule is published on social media.',
+        'faq.q5': 'Where are you located?',
+        'faq.a5': 'Sumy, Ukraine. The VOLETSVIT at VERYZHYTSIA space is our main creative-ecological location. The exact address is shared after first contact.',
+        'faq.q6': 'How can I contact you?',
+        'faq.a6': 'Email and social media are in the footer below. We reply within 1-2 days.',
+        'footer.about': 'NGO CF "WE BELIEVE - ALL WILL BE WELL"<br/><em>"From a small action - to a great dream"</em>',
+        'footer.sectionsTitle': 'Sections',
+        'footer.contactsTitle': 'Contacts',
+        'footer.location': 'Sumy, Ukraine',
+        'footer.menuAria': 'Footer menu',
+        'footer.copyLeft':  '© ' + new Date().getFullYear() + ' NGO CF "WE BELIEVE - ALL WILL BE WELL". All rights reserved.',
+        'footer.copyRight': ' Made with 💛 in Sumy.',
+      },
+    };
+
+    const STORAGE_KEY = 'bdzholyk_lang';
+    const SUPPORTED = ['uk', 'en'];
+    const DEFAULT_LANG = 'uk';
+
+    function detectInitialLang() {
+      const params = new URLSearchParams(location.search);
+      const fromQuery = params.get('lang');
+      if (fromQuery && SUPPORTED.includes(fromQuery)) return fromQuery;
+      const stored = localStorage.getItem(STORAGE_KEY);
+      if (stored && SUPPORTED.includes(stored)) return stored;
+      return DEFAULT_LANG;
+    }
+
+    function applyLang(lang) {
+      const dict = I18N[lang] || I18N[DEFAULT_LANG];
+      document.documentElement.lang = lang;
+
+      // Text content
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (dict[key] !== undefined) el.textContent = dict[key];
+      });
+      // HTML content (trusted, static dictionary)
+      document.querySelectorAll('[data-i18n-html]').forEach(el => {
+        const key = el.getAttribute('data-i18n-html');
+        if (dict[key] !== undefined) el.innerHTML = dict[key];
+      });
+      // Attribute translations: "attr:key;attr2:key2"
+      document.querySelectorAll('[data-i18n-attr]').forEach(el => {
+        const spec = el.getAttribute('data-i18n-attr');
+        spec.split(';').forEach(pair => {
+          const [attr, key] = pair.split(':').map(s => s && s.trim());
+          if (attr && key && dict[key] !== undefined) el.setAttribute(attr, dict[key]);
+        });
+      });
+
+      // Document title + meta description
+      if (dict['doc.title']) document.title = dict['doc.title'];
+      const metaDesc = document.querySelector('meta[name="description"]');
+      if (metaDesc && dict['doc.desc']) metaDesc.setAttribute('content', dict['doc.desc']);
+
+      // Restore year span (was wiped by data-i18n textContent on footer.copyLeft? no, footer.copyLeft already includes year)
+      const yearEl = document.getElementById('year');
+      if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+      // Switcher pressed state
+      document.querySelectorAll('.lang-switch button').forEach(btn => {
+        const isActive = btn.getAttribute('data-lang') === lang;
+        btn.setAttribute('aria-pressed', String(isActive));
+      });
+
+      // Persist
+      try { localStorage.setItem(STORAGE_KEY, lang); } catch (e) {}
+    }
+  </script>
+
+  <script>
+    // Enable JS-only enhancements
     document.documentElement.classList.add('js');
 
-    // Year
+    // Year (initial — overwritten by applyLang too)
     document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Initial language
+    applyLang(detectInitialLang());
+
+    // Lang switcher wiring
+    document.querySelectorAll('.lang-switch button').forEach(btn => {
+      btn.addEventListener('click', () => applyLang(btn.getAttribute('data-lang')));
+    });
 
     // Sticky header shadow
     const header = document.getElementById('site-header');
@@ -532,9 +818,12 @@
     const burger = document.getElementById('burger');
     const mobileNav = document.getElementById('mobile-nav');
     burger.addEventListener('click', () => {
-      const open = mobileNav.classList.toggle('hidden');
-      burger.setAttribute('aria-expanded', String(!open));
-      burger.setAttribute('aria-label', open ? 'Відкрити меню' : 'Закрити меню');
+      const wasHidden = mobileNav.classList.contains('hidden');
+      mobileNav.classList.toggle('hidden');
+      const isOpen = wasHidden;
+      burger.setAttribute('aria-expanded', String(isOpen));
+      const dict = I18N[document.documentElement.lang] || I18N[DEFAULT_LANG];
+      burger.setAttribute('aria-label', isOpen ? dict['nav.menuClose'] : dict['nav.menuOpen']);
     });
     mobileNav.querySelectorAll('a').forEach(a => {
       a.addEventListener('click', () => {
@@ -543,7 +832,7 @@
       });
     });
 
-    // Reveal on scroll (with safety net: if IO unsupported OR not triggered after load, show all)
+    // Reveal on scroll (with safety net)
     const reveals = document.querySelectorAll('.reveal');
     if ('IntersectionObserver' in window) {
       const io = new IntersectionObserver((entries) => {
@@ -555,11 +844,8 @@
         });
       }, { rootMargin: '0px 0px -10% 0px', threshold: 0.01 });
       reveals.forEach(el => io.observe(el));
-      // Safety net: after load + 1.5s, force-show anything still hidden
       window.addEventListener('load', () => {
-        setTimeout(() => {
-          document.documentElement.classList.add('no-anim');
-        }, 1500);
+        setTimeout(() => { document.documentElement.classList.add('no-anim'); }, 1500);
       });
     } else {
       document.documentElement.classList.add('no-anim');

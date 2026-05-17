@@ -38,6 +38,12 @@ docs/superpowers/specs/
 Mobile-first. Брейкпоінти Tailwind: `sm` 640px, `md` 768px, `lg` 1024px, `xl` 1280px.
 Без горизонтального скролу від 320px.
 
+## Мови
+
+Українська (за замовчуванням) + English. Перемикач `UK / EN` у шапці.
+Вибір зберігається в `localStorage`, також підтримує `?lang=en` у URL.
+Всі тексти у словнику `I18N` всередині `index.html` (без зовнішніх файлів).
+
 ## Деплой
 
 GitHub Pages з `main` branch, root.
